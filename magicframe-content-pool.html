@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magicframe — 运营内容池</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #AE3925;
+    --black: #1a1a1a;
+    --warm-white: #f5f0eb;
+    --beige: #e8e0d5;
+    --mid-gray: #888;
+    --light-gray: #d0c8be;
+    --row-alt: #faf8f6;
+  }
+
+  body {
+    background: var(--warm-white);
+    color: var(--black);
+    font-family: -apple-system, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    background: var(--black);
+    color: white;
+    padding: 48px 60px 40px;
+    border-bottom: 3px solid var(--red);
+  }
+  .masthead-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+  .masthead h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 42px;
+    font-weight: normal;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  .masthead-sub {
+    font-size: 13px;
+    color: #aaa;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── NAV ── */
+  .nav-bar {
+    background: white;
+    border-bottom: 1px solid var(--beige);
+    padding: 0 60px;
+    display: flex;
+    gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 18px 28px 15px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    font-family: inherit;
+  }
+  .nav-btn:hover { color: var(--black); }
+  .nav-btn.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+
+  /* ── LAYOUT ── */
+  .page-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px 80px;
+  }
+
+  .section { display: none; padding-top: 52px; }
+  .section.active { display: block; }
+
+  .section-header {
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 16px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+  }
+  .section-num {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+  .section-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 26px;
+    font-weight: normal;
+    letter-spacing: 0.03em;
+  }
+  .section-desc {
+    font-size: 13px;
+    color: var(--mid-gray);
+    margin-bottom: 36px;
+    line-height: 1.7;
+    max-width: 680px;
+  }
+
+  /* ── LAYER DIAGRAM ── */
+  .layer-stack { display: flex; flex-direction: column; gap: 2px; margin-bottom: 48px; }
+  .layer-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    border: 1px solid var(--beige);
+    background: white;
+  }
+  .layer-num {
+    background: var(--black);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    writing-mode: horizontal-tb;
+    padding: 20px 16px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .layer-num span { color: var(--red); display: block; font-size: 18px; font-family: Georgia, serif; margin-bottom: 4px; }
+  .layer-body { padding: 20px 28px; }
+  .layer-name {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .layer-desc { font-size: 13px; color: var(--mid-gray); }
+
+  /* ── TABLES ── */
+  .table-wrap {
+    background: white;
+    border: 1px solid var(--beige);
+    overflow-x: auto;
+    margin-bottom: 48px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+  }
+  thead tr {
+    background: var(--black);
+    color: white;
+  }
+  th {
+    padding: 14px 16px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: left;
+    white-space: nowrap;
+    border-right: 1px solid #333;
+  }
+  th:last-child { border-right: none; }
+  td {
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    vertical-align: top;
+    border-right: 1px solid var(--beige);
+    border-bottom: 1px solid var(--beige);
+    color: #333;
+  }
+  td:last-child { border-right: none; }
+  tbody tr:nth-child(even) td { background: var(--row-alt); }
+  tbody tr:hover td { background: #f0ebe4; }
+
+  .cell-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .cell-sub { font-size: 12px; color: var(--mid-gray); }
+
+  /* theme tag in table */
+  .t-theme {
+    display: inline-block;
+    font-size: 11px;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 2px 7px;
+    margin: 2px 2px 2px 0;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  /* ── KEYWORD TAGS ── */
+  .kw-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 16px; }
+  .kw {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--light-gray);
+    padding: 3px 9px;
+    color: #555;
+  }
+
+  /* ── SELLPOINT CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1px;
+    background: var(--beige);
+    border: 1px solid var(--beige);
+    margin-bottom: 48px;
+  }
+  .sp-card {
+    background: white;
+    padding: 28px 28px 32px;
+  }
+  .sp-card-header {
+    border-bottom: 2px solid var(--red);
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+  .sp-card-num {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .sp-card-title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 0.02em;
+  }
+  .sp-section { margin-bottom: 16px; }
+  .sp-section-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-bottom: 6px;
+    border-left: 2px solid var(--red);
+    padding-left: 8px;
+  }
+  .sp-list { list-style: none; padding: 0; }
+  .sp-list li {
+    font-size: 13px;
+    color: #444;
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .sp-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--light-gray);
+    font-size: 11px;
+    top: 5px;
+  }
+  .theme-ref {
+    font-size: 12px;
+    color: var(--red);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* ── THEME CARDS (section 3) ── */
+  .theme-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--beige);
+    border: 1px solid var(--beige);
+    margin-bottom: 48px;
+  }
+  .theme-row {
+    background: white;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+  }
+  .theme-left {
+    padding: 24px 24px 24px 28px;
+    border-right: 1px solid var(--beige);
+  }
+  .theme-quote {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: normal;
+    color: var(--black);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .theme-tagline {
+    font-size: 12px;
+    color: var(--red);
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .theme-right {
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  .theme-col-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-bottom: 6px;
+  }
+  .theme-col-val {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.7;
+  }
+
+  /* ── FORMAT TABLE ── */
+  .format-table-wrap {
+    background: white;
+    border: 1px solid var(--beige);
+    overflow-x: auto;
+    margin-bottom: 48px;
+  }
+
+  /* ── DIVIDER ── */
+  .ruled { border: none; border-top: 1px solid var(--beige); margin: 40px 0; }
+
+  @media (max-width: 900px) {
+    .masthead { padding: 36px 24px 28px; }
+    .masthead h1 { font-size: 28px; }
+    .nav-bar { padding: 0 16px; overflow-x: auto; }
+    .page-wrap { padding: 0 24px 60px; }
+    .theme-row { grid-template-columns: 1fr; }
+    .theme-right { grid-template-columns: 1fr 1fr; }
+    .theme-left { border-right: none; border-bottom: 1px solid var(--beige); }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-eyebrow">Brand Content System · 2026</div>
+  <h1>Magicframe<br>运营内容池</h1>
+  <div class="masthead-sub">让家庭关系里的摩擦变轻 &nbsp;·&nbsp; 卖点 × 场景 × 母题 × 形式</div>
+</div>
+
+<nav class="nav-bar">
+  <button class="nav-btn active" onclick="showTab('arch', this)">内容架构</button>
+  <button class="nav-btn" onclick="showTab('matrix', this)">运营矩阵</button>
+  <button class="nav-btn" onclick="showTab('themes', this)">母题内容包</button>
+  <button class="nav-btn" onclick="showTab('formats', this)">内容形式</button>
+  <button class="nav-btn" onclick="showTab('pool', this)">卖点内容池</button>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- ══ SECTION 1: 内容架构 ══ -->
+  <div id="arch" class="section active">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">内容架构</span>
+    </div>
+    <p class="section-desc">
+      内容系统分四层理解。从产品能力出发，经由真实场景问题，用传播母题包裹，最终落到具体内容形式。每一层都有独立的使用场景，也可以组合成完整的选题路径。
+    </p>
+
+    <div class="layer-stack">
+      <div class="layer-row">
+        <div class="layer-num"><span>01</span>卖点层</div>
+        <div class="layer-body">
+          <div class="layer-name">卖点内容包</div>
+          <div class="layer-desc">产品到底有哪些能力 — 便利贴 / AI创作 / 家庭日程 / 习惯养成 / 家庭美术馆</div>
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-num"><span>02</span>场景层</div>
+        <div class="layer-body">
+          <div class="layer-name">场景问题包</div>
+          <div class="layer-desc">用户在家庭里具体遇到什么问题 — 冷战没人先开口 / 总问几点到家 / 刷牙睡觉天天靠催 / 照片躺在手机里…</div>
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-num"><span>03</span>母题层</div>
+        <div class="layer-body">
+          <div class="layer-name">母题内容包</div>
+          <div class="layer-desc">用什么传播语言去讲这些问题 — 《这个家最常出现的一句话》/ 《那些没说出口的话》/ 《把催促变成主动》…</div>
+        </div>
+      </div>
+      <div class="layer-row">
+        <div class="layer-num"><span>04</span>形式层</div>
+        <div class="layer-body">
+          <div class="layer-name">内容形式</div>
+          <div class="layer-desc">最后做成什么 — 视频 / 图文 / 文章 / 产品页，每种形式有不同的传播目标和标题风格</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top: 52px;">
+      <span class="section-num">使用方式</span>
+      <span class="section-title">如何用这套系统选题</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>目标</th>
+            <th>选卖点</th>
+            <th>选母题</th>
+            <th>选形式</th>
+            <th>示例主题</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="cell-label">打妈妈人群共鸣</div></td>
+            <td>习惯养成</td>
+            <td><span class="t-theme">这个家最常出现的一句话</span></td>
+            <td>视频 + 图文 + 文章</td>
+            <td>快去刷牙，别磨蹭了</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">做搜索承接</div></td>
+            <td>家庭美术馆</td>
+            <td><span class="t-theme">把爱挂在家里</span></td>
+            <td>文章 + 产品页</td>
+            <td>AI画框和电子相框有什么区别</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">亲子关系共鸣</div></td>
+            <td>AI创作</td>
+            <td><span class="t-theme">孩子脑袋里的世界</span></td>
+            <td>视频 + 案例故事</td>
+            <td>有些胡说八道，其实是想象力</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">夫妻关系共鸣</div></td>
+            <td>便利贴</td>
+            <td><span class="t-theme">那些没说出口的话</span></td>
+            <td>视频 + 图文</td>
+            <td>有些爱，也可以轻轻说出口</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">双职工家庭痛点</div></td>
+            <td>家庭日程</td>
+            <td><span class="t-theme">抬头就能知道的牵挂</span></td>
+            <td>视频 + 场景故事</td>
+            <td>有些牵挂，抬头就能知道</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: 运营矩阵 ══ -->
+  <div id="matrix" class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">运营矩阵总表</span>
+    </div>
+    <p class="section-desc">五个卖点 × 七个维度。横向看一个卖点的完整内容路径，纵向看同一维度下不同卖点的差异。</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:130px">卖点内容包</th>
+            <th style="min-width:160px">核心用户问题</th>
+            <th style="min-width:150px">场景问题包</th>
+            <th style="min-width:200px">可挂接的母题</th>
+            <th style="min-width:150px">视频方向</th>
+            <th style="min-width:150px">图文方向</th>
+            <th style="min-width:200px">文章方向</th>
+            <th style="min-width:150px">产品页方向</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="cell-label">便利贴</div><div class="cell-sub">留言 / 待办</div></td>
+            <td>有些话说不出口；冷战没人先开口；关心太肉麻</td>
+            <td>深夜和解、夫妻冷战、远程关心、待办提醒、道歉与关怀</td>
+            <td><span class="t-theme">那些没说出口的话</span> <span class="t-theme">这个家最常出现的一句话</span> <span class="t-theme">把爱挂在家里</span></td>
+            <td>情绪短片、深夜便签和解片、伴侣关系片</td>
+            <td>一句话海报、便签场景长图、旧照片+便签图卡</td>
+            <td>为什么有些话总是在深夜才说得出口 / 便利贴为什么比微信更有温度</td>
+            <td>功能介绍、留言/待办页、使用场景页、情绪化落地页</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">AI创作</div><div class="cell-sub">AI生图 / AI涂鸦</div></td>
+            <td>家长接不住孩子脑洞；不会画只能敷衍；想象力缺乏出口</td>
+            <td>亲子共创、孩子脑洞、天马行空、涂鸦生成、陪伴时刻</td>
+            <td><span class="t-theme">孩子脑袋里的世界</span> <span class="t-theme">这个家最常出现的一句话</span> <span class="t-theme">有些胡说八道，其实是想象力</span></td>
+            <td>亲子情绪短片、AI生成惊喜短片、脑洞具象化短片</td>
+            <td>脑洞长图、AI涂鸦前后对比、共创陪伴海报</td>
+            <td>为什么"别闹了"会打断孩子的想象力 / AI生图在家庭里真正有价值的不是炫技</td>
+            <td>AI创作功能页、案例展示页、亲子陪伴页</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">家庭日程</div><div class="cell-sub">信息 / 到家状态 / 提醒</div></td>
+            <td>总忘东西；总问几点到家；信息都散在微信里；追问久了会吵架</td>
+            <td>上学提醒、出门漏带东西、到家时间、晚饭等待、家庭共享信息</td>
+            <td><span class="t-theme">抬头就能知道的牵挂</span> <span class="t-theme">这个家最常出现的一句话</span> <span class="t-theme">把等待变成默契</span></td>
+            <td>生活流短片、夫妻日常片、妈妈提醒片</td>
+            <td>提醒场景长图、到家时间图卡、家庭信息中心功能卡</td>
+            <td>为什么很多夫妻吵架只是从"几点到家"开始 / 为什么家庭需要一个共享信息屏</td>
+            <td>家庭信息页、状态同步页、提醒管理页</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">习惯养成</div><div class="cell-sub">打卡 / 能量积木</div></td>
+            <td>刷牙睡觉整理书包天天靠催；教育像监工；孩子被催大人也累</td>
+            <td>刷牙睡觉、作业、整理书包、运动打卡、家庭共同目标</td>
+            <td><span class="t-theme">把催促变成主动</span> <span class="t-theme">这个家最常出现的一句话</span> <span class="t-theme">最好的教育，是我们一起</span></td>
+            <td>妈妈线短片、打卡激励片、亲子习惯片</td>
+            <td>打卡长图、能量积木机制图、挑战任务海报</td>
+            <td>为什么家庭教育最累的不是做事，是重复提醒 / 为什么习惯养成不该只靠催</td>
+            <td>打卡机制页、能量积木页、家庭挑战页</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">家庭美术馆</div><div class="cell-sub">照片 / 艺术化 / 名画</div></td>
+            <td>照片都躺在手机里；普通日子没有被珍藏；家里装饰没有情感</td>
+            <td>家庭照片展示、普通日子收藏、节日回忆、名画切换、家庭氛围美化</td>
+            <td><span class="t-theme">把爱挂在家里</span> <span class="t-theme">最好的收藏是我们在的日子</span> <span class="t-theme">这个家最常出现的一句话（次级）</span></td>
+            <td>温情短片、回忆治愈片、家庭氛围片</td>
+            <td>美术馆长图、照片前后对比、家居氛围图</td>
+            <td>为什么普通日子也值得被挂起来 / AI画框和电子相框有什么区别</td>
+            <td>家庭美术馆页、照片展示页、艺术氛围页</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: 母题内容包 ══ -->
+  <div id="themes" class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">母题内容包矩阵</span>
+    </div>
+    <p class="section-desc">适合创意团队、文案和运营选题时使用。每个母题是一个传播入口，横跨多个卖点，用情绪语言连接产品能力与用户感受。</p>
+
+    <div class="table-wrap" style="margin-bottom:48px">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:200px">母题内容包</th>
+            <th style="min-width:180px">适合挂接的卖点</th>
+            <th style="min-width:130px">主要人群</th>
+            <th style="min-width:160px">适合讲的冲突</th>
+            <th style="min-width:180px">更适合的内容形式</th>
+            <th style="min-width:200px">代表标题 / 句子</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="cell-label">《这个家最常出现的一句话》</div></td>
+            <td>习惯养成、家庭日程、AI创作、便利贴、家庭美术馆（次级）</td>
+            <td>泛家庭用户</td>
+            <td>反复说的话越来越重</td>
+            <td>视频主系列、海报、互动图文、品牌总片</td>
+            <td>快去刷牙，别磨蹭了 / 别闹了 / 几点到家？ / 算了，不说了</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">《那些没说出口的话》</div></td>
+            <td>便利贴、旧照片、家庭美术馆</td>
+            <td>伴侣、情绪型用户</td>
+            <td>道歉、关心、冷战、深夜和解</td>
+            <td>情绪短片、长图、文章</td>
+            <td>有些爱，也可以轻轻说出口</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">《孩子脑袋里的世界》</div></td>
+            <td>AI创作、AI涂鸦</td>
+            <td>亲子家庭、教育人群</td>
+            <td>大人听不懂、想象力被打断</td>
+            <td>短视频、脑洞图文、亲子文章</td>
+            <td>有些胡说八道，其实是想象力</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">《把催促变成主动》</div></td>
+            <td>习惯养成、家庭管理</td>
+            <td>妈妈、学龄家庭</td>
+            <td>刷牙、睡觉、整理书包全靠催</td>
+            <td>场景短片、功能长图、教育文章</td>
+            <td>有些提醒，不一定要第4次说出口</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">《抬头就能知道的牵挂》</div></td>
+            <td>家庭日程、到家状态、提醒</td>
+            <td>双职工夫妻、家庭主理人</td>
+            <td>忘带东西、下班时间不确定、晚饭等待</td>
+            <td>生活短片、信息图、场景文</td>
+            <td>有些牵挂，抬头就能知道</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">《把爱挂在家里》</div></td>
+            <td>家庭美术馆、便利贴、旧照片</td>
+            <td>泛家庭用户、情绪人群</td>
+            <td>普通日子没被珍藏、家里缺少情感装饰</td>
+            <td>温情短片、氛围图文、品牌文章</td>
+            <td>最好的收藏，是我们在的日子</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">《最好的教育，是我们一起》</div></td>
+            <td>习惯养成、AI创作</td>
+            <td>亲子家庭、妈妈</td>
+            <td>教育总像考核、缺少共同参与</td>
+            <td>亲子视频、教育图文、方法文</td>
+            <td>在这里，没有监工，只有队友</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: 内容形式 ══ -->
+  <div id="formats" class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">内容形式矩阵</span>
+    </div>
+    <p class="section-desc">同一个卖点或母题，用不同形式承接不同目标。视频打动人，图文讲清楚，文章建信任，产品页促转化。</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:80px">内容形式</th>
+            <th style="min-width:160px">最适合承接什么</th>
+            <th style="min-width:200px">最适合挂接的卖点</th>
+            <th style="min-width:200px">最适合挂接的母题</th>
+            <th style="min-width:140px">主要作用</th>
+            <th style="min-width:160px">标题风格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="cell-label">视频</div></td>
+            <td>情绪共鸣、关系变化、记忆点</td>
+            <td>全部，尤其习惯养成、AI创作、便利贴、家庭日程</td>
+            <td>《这个家最常出现的一句话》《孩子脑袋里的世界》《那些没说出口的话》</td>
+            <td>打动人、形成记忆、传播</td>
+            <td>共鸣型、戏剧型、一句话型</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">图文</div></td>
+            <td>快速解释场景和机制</td>
+            <td>习惯养成、家庭日程、AI创作、家庭美术馆</td>
+            <td>《把催促变成主动》《抬头就能知道的牵挂》</td>
+            <td>讲清楚、适合收藏和转发</td>
+            <td>问题型、解释型、场景型</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">文章</div></td>
+            <td>深度洞察、搜索承接、认知建立</td>
+            <td>全部，尤其家庭日程、AI创作、便利贴、家庭美术馆</td>
+            <td>全部母题都可延展</td>
+            <td>让人想清楚、建立信任</td>
+            <td>洞察型、方法型、搜索型</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">产品页</div></td>
+            <td>承接决策、展示功能和价值</td>
+            <td>全部，按功能拆</td>
+            <td>不直接用母题做主标题，但可做副标题</td>
+            <td>转化、咨询、决策承接</td>
+            <td>产品解释型、价值解释型</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: 卖点内容池 ══ -->
+  <div id="pool" class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">卖点内容池</span>
+    </div>
+    <p class="section-desc">按卖点拆分的可直接使用的内容池。每个卖点包含关键词、母题挂接、以及视频 / 图文 / 文章 / 产品页四个方向的具体选题。</p>
+
+    <div class="cards-grid">
+
+      <!-- 便利贴 -->
+      <div class="sp-card">
+        <div class="sp-card-header">
+          <div class="sp-card-num">卖点 01</div>
+          <div class="sp-card-title">便利贴 — 留言 / 待办</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list">
+            <span class="kw">留言</span><span class="kw">待办</span><span class="kw">道歉</span><span class="kw">关心</span><span class="kw">深夜</span><span class="kw">和解</span><span class="kw">旧照片</span><span class="kw">温柔表达</span>
+          </div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《那些没说出口的话》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《把爱挂在家里》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list">
+            <li>深夜便签和解短片</li>
+            <li>冷战后没说出口的话</li>
+            <li>爸爸/妈妈拉不下脸道歉</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list">
+            <li>一张便签，有时候比一句"对不起"更容易开口</li>
+            <li>便签 vs 微信文字，有什么不同</li>
+            <li>深夜客厅便签场景长图</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list">
+            <li>为什么有些道歉总是在深夜才说得出口</li>
+            <li>手写感留言为什么比微信更有温度</li>
+            <li>家庭里的"情绪出口"，为什么值得被设计</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list">
+            <li>留言功能介绍</li>
+            <li>待办功能介绍</li>
+            <li>使用场景页：夫妻、亲子、远程关心</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- AI创作 -->
+      <div class="sp-card">
+        <div class="sp-card-header">
+          <div class="sp-card-num">卖点 02</div>
+          <div class="sp-card-title">AI创作 — AI生图 / AI涂鸦</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list">
+            <span class="kw">AI生图</span><span class="kw">AI涂鸦</span><span class="kw">脑洞</span><span class="kw">想象力</span><span class="kw">共创</span><span class="kw">陪伴</span><span class="kw">童趣</span><span class="kw">画得不像</span>
+          </div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《孩子脑袋里的世界》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《最好的教育，是我们一起》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list">
+            <li>别闹了</li>
+            <li>画得不像</li>
+            <li>孩子的想法被画出来</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list">
+            <li>每一个奇思妙想，都值得被认真看见</li>
+            <li>孩子脑洞可视化长图</li>
+            <li>AI涂鸦前后对比图卡</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list">
+            <li>为什么"别闹了"会打断孩子的想象力</li>
+            <li>AI生图在家庭陪伴里的价值是什么</li>
+            <li>不会画的家长，怎么和孩子一起创造</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list">
+            <li>AI生图页</li>
+            <li>AI涂鸦页</li>
+            <li>亲子共创页</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 家庭日程 -->
+      <div class="sp-card">
+        <div class="sp-card-header">
+          <div class="sp-card-num">卖点 03</div>
+          <div class="sp-card-title">家庭日程 — 信息 / 到家状态 / 提醒</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list">
+            <span class="kw">提醒</span><span class="kw">日程</span><span class="kw">到家时间</span><span class="kw">共享信息</span><span class="kw">家庭状态</span><span class="kw">忘带东西</span><span class="kw">晚饭等待</span>
+          </div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《抬头就能知道的牵挂》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《把等待变成默契》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list">
+            <li>几点到家？</li>
+            <li>东西带了吗？</li>
+            <li>晚饭刚好热的时候</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list">
+            <li>为什么家庭里的很多吵架，只是从"几点到家"开始</li>
+            <li>一个共享信息屏，怎么减少家庭微信追问</li>
+            <li>出门提醒场景长图</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list">
+            <li>双职工家庭为什么更需要一个共享信息中心</li>
+            <li>为什么"抬头看一眼"比家庭群提醒更有效</li>
+            <li>家庭信息屏和智能中控有什么不同</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list">
+            <li>家庭日程页</li>
+            <li>到家状态页</li>
+            <li>提醒信息页</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 习惯养成 -->
+      <div class="sp-card">
+        <div class="sp-card-header">
+          <div class="sp-card-num">卖点 04</div>
+          <div class="sp-card-title">习惯养成 — 打卡 / 能量积木</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list">
+            <span class="kw">打卡</span><span class="kw">刷牙</span><span class="kw">睡觉</span><span class="kw">整理书包</span><span class="kw">能量积木</span><span class="kw">挑战</span><span class="kw">积分</span><span class="kw">主动完成</span>
+          </div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《把催促变成主动》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《最好的教育，是我们一起》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list">
+            <li>快去刷牙，别磨蹭了</li>
+            <li>睡前打卡</li>
+            <li>一家人共同完成目标</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list">
+            <li>一个AI画框，怎么把"催孩子"变成"主动挑战"</li>
+            <li>能量积木是什么</li>
+            <li>为什么家庭教育不该只靠催</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list">
+            <li>为什么家庭教育最累的是"重复提醒"</li>
+            <li>打卡机制为什么比监督更有效</li>
+            <li>从催促到主动，中间差的是什么</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list">
+            <li>能量积木页</li>
+            <li>习惯养成页</li>
+            <li>家庭挑战页</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 家庭美术馆 -->
+      <div class="sp-card">
+        <div class="sp-card-header">
+          <div class="sp-card-num">卖点 05</div>
+          <div class="sp-card-title">家庭美术馆 — 照片 / 艺术化 / 名画</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list">
+            <span class="kw">照片</span><span class="kw">名画</span><span class="kw">艺术化</span><span class="kw">家庭回忆</span><span class="kw">普通日子</span><span class="kw">家居氛围</span><span class="kw">收藏</span>
+          </div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《把爱挂在家里》&nbsp;·&nbsp;《最好的收藏，是我们在的日子》&nbsp;·&nbsp;《这个家最常出现的一句话》（次级）</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list">
+            <li>普通照片被挂成"家里的名画"</li>
+            <li>家务结束后，妈妈抬头看到旧照片被治愈</li>
+            <li>世界名画与家庭照片切换</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list">
+            <li>最好的收藏，是我们在的日子</li>
+            <li>为什么普通照片也值得挂起来</li>
+            <li>AI画框和电子相框有什么区别</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list">
+            <li>照片为什么总躺在手机里吃灰</li>
+            <li>家里为什么值得有一块"情感装饰"</li>
+            <li>家庭美术馆如何影响孩子的审美</li>
+          </ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list">
+            <li>家庭美术馆页</li>
+            <li>照片展示页</li>
+            <li>艺术氛围页</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
