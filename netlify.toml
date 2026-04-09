@@ -4,5 +4,5 @@
 
 [[redirects]]
   from = "/*"
-  to = "/magicframe-content-pool.html"
+  to = "/pool.html"
   status = 200
