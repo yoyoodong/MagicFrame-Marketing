@@ -685,16 +685,16 @@
       <p id="matrix-status" style="padding:20px;color:#888;">加载中...</p>
       <table id="matrix-table" style="display:none;min-width:1200px">
         <thead><tr>
-          <th style="min-width:100px">卖点</th>
+          <th style="min-width:130px">卖点内容包</th>
           <th style="min-width:160px">核心用户问题</th>
-          <th style="min-width:140px">场景名称</th>
+          <th style="min-width:150px">场景问题包</th>
           <th style="min-width:160px">场景背后问题</th>
           <th style="min-width:120px">情绪标签</th>
-          <th style="min-width:140px">关键词</th>
+          <th style="min-width:180px">可挂接的母题内容包</th>
           <th style="min-width:160px">视频方向</th>
           <th style="min-width:160px">图文方向</th>
           <th style="min-width:160px">文章方向</th>
-          <th style="min-width:140px">产品页方向</th>
+          <th style="min-width:150px">产品页方向</th>
         </tr></thead>
         <tbody id="matrix-body"></tbody>
       </table>
@@ -828,33 +828,38 @@ function showErr(id, msg) {
 const SCENE_DATA = {
   '便利贴': {
     core: '有些话说不出口；冷战没人先开口；关心太肉麻',
-    scenes: '深夜和解 / 夫妻冷战 / 远程关心 / 待办提醒',
+    scenes: '深夜和解、夫妻冷战、远程关心、待办提醒、道歉与关怀',
     behind: '有些话当面说不出口，需要一个更轻的出口',
-    emotion: '愧疚 / 温柔 / 和解'
+    emotion: '愧疚 / 温柔 / 和解',
+    themes: ['《那些没说出口的话》', '《这个家最常出现的一句话》', '《把爱挂在家里》']
   },
   'AI创作': {
     core: '家长接不住孩子脑洞；不会画只能敷衍；想象力缺乏出口',
-    scenes: '亲子共创 / 孩子脑洞 / 涂鸦生成 / 陪伴时刻',
+    scenes: '亲子共创、孩子脑洞、天马行空、涂鸦生成、陪伴时刻',
     behind: '家长接不住孩子脑洞，想象力被打断',
-    emotion: '遗憾 / 愧疚 / 惊喜'
+    emotion: '遗憾 / 愧疚 / 惊喜',
+    themes: ['《孩子脑袋里的世界》', '《这个家最常出现的一句话》', '《有些胡说八道，其实是想象力》']
   },
   '家庭日程': {
-    core: '总忘东西；总问几点到家；信息都散在微信里',
-    scenes: '上学提醒 / 到家时间 / 晚饭等待 / 共享信息',
+    core: '总忘东西；总问几点到家；信息都散在微信里；追问久了会吵架',
+    scenes: '上学提醒、出门漏带东西、到家时间、晚饭等待、家庭共享信息',
     behind: '信息不确定带来焦虑，追问变成压力',
-    emotion: '焦虑 / 烦躁 / 牵挂'
+    emotion: '焦虑 / 烦躁 / 牵挂',
+    themes: ['《抬头就能知道的牵挂》', '《这个家最常出现的一句话》', '《把等待变成默契》']
   },
   '习惯养成': {
-    core: '刷牙睡觉整理书包天天靠催；教育像监工',
-    scenes: '刷牙睡觉 / 整理书包 / 运动打卡 / 家庭共同目标',
+    core: '刷牙、睡觉、整理书包天天靠催；教育像监工；孩子被催大人也累',
+    scenes: '刷牙睡觉、作业、整理书包、运动打卡、家庭共同目标',
     behind: '重复提醒带来的疲惫；教育像监工；孩子被催、大人也累',
-    emotion: '烦躁 / 无奈 / 拉扯 / 想轻松一点'
+    emotion: '烦躁 / 无奈 / 拉扯 / 想轻松一点',
+    themes: ['《把催促变成主动》', '《这个家最常出现的一句话》', '《最好的教育，是我们一起》']
   },
   '家庭美术馆': {
-    core: '照片都躺在手机里；普通日子没有被珍藏',
-    scenes: '家庭照片展示 / 普通日子收藏 / 名画切换',
+    core: '照片都躺在手机里；普通日子没有被珍藏；家里装饰没有情感',
+    scenes: '家庭照片展示、普通日子收藏、节日回忆、名画切换、家庭氛围美化',
     behind: '普通日子没被珍藏，家里缺少情感装饰',
-    emotion: '遗憾 / 温情 / 治愈'
+    emotion: '遗憾 / 温情 / 治愈',
+    themes: ['《把爱挂在家里》', '《最好的收藏是我们在的日子》', '《这个家最常出现的一句话》（次级）']
   }
 }
 
@@ -887,12 +892,12 @@ async function loadMatrix() {
       const sc = SCENE_DATA[sp.name] || {}
       const pool = poolMap[sp.id] || {}
       return `<tr>
-        <td class="td-name">${sp.name}</td>
+        <td><div class="cell-label">${sp.name}</div><div class="cell-sub">${sp.subtitle || ''}</div></td>
         <td>${sc.core || ''}</td>
         <td>${sc.scenes || ''}</td>
         <td>${sc.behind || ''}</td>
         <td>${sc.emotion ? sc.emotion.split('/').map(e => `<span class="tag tag-gray">${e.trim()}</span>`).join('') : ''}</td>
-        <td>${(sp.keywords || []).map(k => `<span class="tag">${k}</span>`).join('')}</td>
+        <td>${(sc.themes || []).map(t => `<span class="t-theme">${t}</span>`).join(' ')}</td>
         <td>${ideaList(pool.video_ideas)}</td>
         <td>${ideaList(pool.image_ideas)}</td>
         <td>${ideaList(pool.article_ideas)}</td>
