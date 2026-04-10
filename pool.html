@@ -695,6 +695,7 @@
           <th style="min-width:160px">图文方向</th>
           <th style="min-width:160px">文章方向</th>
           <th style="min-width:150px">产品页方向</th>
+          <th style="min-width:60px">操作</th>
         </tr></thead>
         <tbody id="matrix-body"></tbody>
       </table>
@@ -756,8 +757,185 @@
       <span class="section-title">卖点内容池</span>
     </div>
     <p class="section-desc">这里是按卖点整理好的内容素材池。如果确定要讲哪个卖点，就可以直接来这里找：适合挂哪个母题、视频、图文、文章。</p>
-    <p id="pool-status" style="padding:20px 0;color:#888;">加载中...</p>
-    <div id="pool-grid" class="cards-grid" style="display:none"></div>
+
+    <div class="cards-grid">
+
+      <!-- 便利贴 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 01</div>
+            <div class="sp-card-title">便利贴 — 留言 / 待办</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('便利贴')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">留言</span><span class="kw">待办</span><span class="kw">道歉</span><span class="kw">关心</span><span class="kw">深夜</span><span class="kw">和解</span><span class="kw">旧照片</span><span class="kw">温柔表达</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《那些没说出口的话》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《把爱挂在家里》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list" id="pool-video-便利贴"><li>深夜便签和解短片</li><li>冷战后没说出口的话</li><li>爸爸/妈妈拉不下脸道歉</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list" id="pool-image-便利贴"><li>一张便签，有时候比一句「对不起」更容易开口</li><li>便签 vs 微信文字，有什么不同</li><li>深夜客厅便签场景长图</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list" id="pool-article-便利贴"><li>为什么有些道歉总是在深夜才说得出口</li><li>手写感留言为什么比微信更有温度</li><li>家庭里的「情绪出口」，为什么值得被设计</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list" id="pool-product-便利贴"><li>留言功能介绍</li><li>待办功能介绍</li><li>使用场景页：夫妻、亲子、远程关心</li></ul>
+        </div>
+      </div>
+
+      <!-- AI创作 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 02</div>
+            <div class="sp-card-title">AI创作 — AI生图 / AI涂鸦</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('AI创作')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">AI生图</span><span class="kw">AI涂鸦</span><span class="kw">脑洞</span><span class="kw">想象力</span><span class="kw">共创</span><span class="kw">陪伴</span><span class="kw">童趣</span><span class="kw">画得不像</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《孩子脑袋里的世界》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《最好的教育，是我们一起》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list" id="pool-video-AI创作"><li>「别闹了」</li><li>「画得不像」</li><li>孩子的想法被画出来</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list" id="pool-image-AI创作"><li>每一个奇思妙想，都值得被认真看见</li><li>孩子脑洞可视化长图</li><li>AI涂鸦前后对比图卡</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list" id="pool-article-AI创作"><li>为什么「别闹了」会打断孩子的想象力</li><li>AI生图在家庭陪伴里的价值是什么</li><li>不会画的家长，怎么和孩子一起创造</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list" id="pool-product-AI创作"><li>AI生图页</li><li>AI涂鸦页</li><li>亲子共创页</li></ul>
+        </div>
+      </div>
+
+      <!-- 家庭日程 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 03</div>
+            <div class="sp-card-title">家庭日程 — 信息 / 到家状态 / 提醒</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('家庭日程')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">提醒</span><span class="kw">日程</span><span class="kw">到家时间</span><span class="kw">共享信息</span><span class="kw">家庭状态</span><span class="kw">忘带东西</span><span class="kw">晚饭等待</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《抬头就能知道的牵挂》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《把等待变成默契》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list" id="pool-video-家庭日程"><li>几点到家？</li><li>东西带了吗？</li><li>晚饭刚好热的时候</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list" id="pool-image-家庭日程"><li>为什么家庭里的很多吵架，只是从「几点到家」开始</li><li>一个共享信息屏，怎么减少家庭微信追问</li><li>出门提醒场景长图</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list" id="pool-article-家庭日程"><li>双职工家庭为什么更需要一个共享信息中心</li><li>为什么「抬头看一眼」比家庭群提醒更有效</li><li>家庭信息屏和智能中控有什么不同</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list" id="pool-product-家庭日程"><li>家庭日程页</li><li>到家状态页</li><li>提醒信息页</li></ul>
+        </div>
+      </div>
+
+      <!-- 习惯养成 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 04</div>
+            <div class="sp-card-title">习惯养成 — 打卡 / 能量积木</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('习惯养成')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">打卡</span><span class="kw">刷牙</span><span class="kw">睡觉</span><span class="kw">整理书包</span><span class="kw">能量积木</span><span class="kw">挑战</span><span class="kw">积分</span><span class="kw">主动完成</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《把催促变成主动》&nbsp;·&nbsp;《这个家最常出现的一句话》&nbsp;·&nbsp;《最好的教育，是我们一起》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list" id="pool-video-习惯养成"><li>快去刷牙，别磨蹭了</li><li>睡前打卡</li><li>一家人共同完成目标</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list" id="pool-image-习惯养成"><li>一个AI画框，怎么把「催孩子」变成「主动挑战」</li><li>能量积木是什么</li><li>为什么家庭教育不该只靠催</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list" id="pool-article-习惯养成"><li>为什么家庭教育最累的是「重复提醒」</li><li>打卡机制为什么比监督更有效</li><li>从催促到主动，中间差的是什么</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list" id="pool-product-习惯养成"><li>能量积木页</li><li>习惯养成页</li><li>家庭挑战页</li></ul>
+        </div>
+      </div>
+
+      <!-- 家庭美术馆 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 05</div>
+            <div class="sp-card-title">家庭美术馆 — 照片 / 艺术化 / 名画</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('家庭美术馆')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">照片</span><span class="kw">名画</span><span class="kw">艺术化</span><span class="kw">家庭回忆</span><span class="kw">普通日子</span><span class="kw">家居氛围</span><span class="kw">收藏</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《把爱挂在家里》&nbsp;·&nbsp;《最好的收藏，是我们在的日子》&nbsp;·&nbsp;《这个家最常出现的一句话》（次级）</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list" id="pool-video-家庭美术馆"><li>普通照片被挂成「家里的名画」</li><li>家务结束后，妈妈抬头看到旧照片被治愈</li><li>世界名画与家庭照片切换</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list" id="pool-image-家庭美术馆"><li>最好的收藏，是我们在的日子</li><li>为什么普通照片也值得挂起来</li><li>AI画框和电子相框有什么区别</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list" id="pool-article-家庭美术馆"><li>照片为什么总躺在手机里吃灰</li><li>家里为什么值得有一块「情感装饰」</li><li>家庭美术馆如何影响孩子的审美</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list" id="pool-product-家庭美术馆"><li>家庭美术馆页</li><li>照片展示页</li><li>艺术氛围页</li></ul>
+        </div>
+      </div>
+
+    </div>
   </div>
   
 </div><!-- /page-wrap -->
@@ -902,6 +1080,7 @@ async function loadMatrix() {
         <td>${ideaList(pool.image_ideas)}</td>
         <td>${ideaList(pool.article_ideas)}</td>
         <td>${ideaList(pool.product_pages)}</td>
+        <td class="action-cell"><button class="btn btn-sm" onclick="openPoolModal(${sp.id}, ${pool.id || 'null'})">编辑</button></td>
       </tr>`
     }).join('')
     status.style.display = 'none'
@@ -1212,6 +1391,7 @@ async function savePool() {
   showErr('pool-modal-error', '')
   const recordId = document.getElementById('pool-record-id').value
   const sellpointId = document.getElementById('pool-sellpoint-id').value
+  const spName = document.getElementById('pool-modal').dataset.spName
   const payload = {
     sellpoint_id: parseInt(sellpointId),
     video_ideas: textToArr(document.getElementById('pool-video').value),
@@ -1220,14 +1400,16 @@ async function savePool() {
     product_pages: textToArr(document.getElementById('pool-product').value)
   }
   try {
+    let saved
     if (recordId) {
-      await sbFetch('PATCH', 'content_pool', payload, recordId)
+      const res = await sbFetch('PATCH', 'content_pool', payload, recordId)
+      saved = Array.isArray(res) ? res[0] : res
     } else {
-      await sbFetch('POST', 'content_pool', payload)
+      const res = await sbFetch('POST', 'content_pool', payload)
+      saved = Array.isArray(res) ? res[0] : res
     }
     closeModal('pool-modal')
-    poolLoaded = false
-    loadPool()
+    if (spName && saved) refreshPoolCard(spName, saved)
     if (matrixLoaded) { matrixLoaded = false; loadMatrix() }
   } catch(e) {
     showErr('pool-modal-error', '保存失败：' + e.message)
@@ -1266,7 +1448,43 @@ function showTab(id, btn) {
   if (id === 'matrix' && !matrixLoaded) loadMatrix()
   if (id === 'themes' && !themesLoaded) loadThemes()
   if (id === 'formats' && !formatsLoaded) loadFormats()
-  if (id === 'pool' && !poolLoaded) loadPool()
+}
+
+// 卖点内容池 — 按名称打开编辑 modal，从 Supabase 加载最新数据
+async function openPoolModalByName(spName) {
+  showErr('pool-modal-error', '')
+  try {
+    const sps = await sbFetch('GET', 'sellpoints', null, null, `name=eq.${encodeURIComponent(spName)}`)
+    const sp = sps && sps[0]
+    if (!sp) { alert('找不到卖点数据'); return }
+    const pools = await sbFetch('GET', 'content_pool', null, null, `sellpoint_id=eq.${sp.id}`)
+    const pool = (pools && pools[0]) || {}
+    document.getElementById('pool-modal-title').textContent = '编辑内容池 — ' + spName
+    document.getElementById('pool-record-id').value = pool.id || ''
+    document.getElementById('pool-sellpoint-id').value = sp.id
+    document.getElementById('pool-video').value = arrToText(pool.video_ideas)
+    document.getElementById('pool-image').value = arrToText(pool.image_ideas)
+    document.getElementById('pool-article').value = arrToText(pool.article_ideas)
+    document.getElementById('pool-product').value = arrToText(pool.product_pages)
+    // 存卖点名称供保存后刷新用
+    document.getElementById('pool-modal').dataset.spName = spName
+    openModal('pool-modal')
+  } catch(e) {
+    alert('加载失败：' + e.message)
+  }
+}
+
+// 保存后刷新对应卡片的列表
+function refreshPoolCard(spName, pool) {
+  const renderList = (id, arr) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.innerHTML = (arr || []).map(i => `<li>${i}</li>`).join('') || '<li style="color:#bbb">暂无</li>'
+  }
+  renderList(`pool-video-${spName}`, pool.video_ideas)
+  renderList(`pool-image-${spName}`, pool.image_ideas)
+  renderList(`pool-article-${spName}`, pool.article_ideas)
+  renderList(`pool-product-${spName}`, pool.product_pages)
 }
 </script>
 
