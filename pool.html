@@ -703,7 +703,7 @@
   <div id="themes" class="section">
     <div class="section-header">
       <span class="section-num">03</span>
-      <span class="section-title">母题内容包矩阵</span>
+      <span class="section-title">情感主题包矩阵</span>
     </div>
     <p class="section-desc">同一个卖点，不一定只能用一种方式讲。母题就是帮我们找到：哪种讲法更容易让用户有感觉、更愿意看下去、更容易记住。</p>
     <div style="margin-bottom:16px">
@@ -730,17 +730,21 @@
       <span class="section-title">趣味主题包矩阵</span>
     </div>
     <p class="section-desc">这组主题更轻、更好玩，适合做日更内容、互动内容和功能玩法内容。如果前面的母题更偏「打动人」，这一组更偏「让人想参与、想评论、想试试」。</p>
-    <div class="table-wrap">
+    <div style="margin-bottom:16px">
+      <button class="btn-add" onclick="openFunThemeModal(null)">+ 新增趣味主题</button>
+    </div>
+    <div class="table-wrap" id="fun-themes-wrap">
       <table>
         <thead><tr>
-          <th style="min-width:180px">趣味主题包</th>
+          <th style="min-width:180px">母题内容包</th>
           <th style="min-width:160px">适合挂接的卖点</th>
           <th style="min-width:120px">主要人群</th>
           <th style="min-width:160px">适合讲的内容</th>
           <th style="min-width:160px">更适合的内容形式</th>
           <th style="min-width:200px">代表标题 / 句子</th>
+          <th style="min-width:80px">操作</th>
         </tr></thead>
-        <tbody>
+        <tbody id="fun-themes-static">
           <tr>
             <td><div class="cell-label">《画框今天又整活了》</div></td>
             <td><span class="t-theme">家庭美术馆</span> <span class="t-theme">AI创作</span></td>
@@ -748,6 +752,7 @@
             <td>画框的意外功能、搞笑用法、创意玩法</td>
             <td>短视频、互动图文</td>
             <td>今天画框给我整了个大活 / 没想到画框还能这么用</td>
+          <td class="action-cell"></td>
           </tr>
           <tr>
             <td><div class="cell-label">《家里的话，也可以很好玩》</div></td>
@@ -756,6 +761,7 @@
             <td>家庭日常对话的趣味化表达</td>
             <td>互动图文、短视频</td>
             <td>家里最好笑的一句话是什么 / 你家画框留过什么神奇便签</td>
+          <td class="action-cell"></td>
           </tr>
           <tr>
             <td><div class="cell-label">《一张便签的100种玩法》</div></td>
@@ -764,6 +770,7 @@
             <td>便签功能的创意玩法和趣味场景</td>
             <td>图文合集、短视频</td>
             <td>便签不只是留言，还可以这样玩 / 第99种玩法我没想到</td>
+          <td class="action-cell"></td>
           </tr>
           <tr>
             <td><div class="cell-label">《今天全家玩什么》</div></td>
@@ -772,6 +779,7 @@
             <td>家庭互动游戏、打卡挑战、共同任务</td>
             <td>互动视频、挑战图文</td>
             <td>今天全家挑战这个 / 用画框设计一个家庭游戏</td>
+          <td class="action-cell"></td>
           </tr>
           <tr>
             <td><div class="cell-label">《把无聊日常玩出花》</div></td>
@@ -780,6 +788,7 @@
             <td>用画框把普通日常变有趣</td>
             <td>短视频、日更图文</td>
             <td>谁说日常一定无聊 / 今天用画框做了件蠢事</td>
+          <td class="action-cell"></td>
           </tr>
           <tr>
             <td><div class="cell-label">《如果家里的画框会接梗》</div></td>
@@ -788,6 +797,7 @@
             <td>画框与流行梗、网络热词的结合</td>
             <td>互动短视频、评论引导图文</td>
             <td>画框今天接了个梗 / 你家画框会接什么梗</td>
+          <td class="action-cell"></td>
           </tr>
           <tr>
             <td><div class="cell-label">《今天客厅挂什么》</div></td>
@@ -796,6 +806,7 @@
             <td>每日换图、名画推荐、氛围搭配</td>
             <td>日更图文、短视频</td>
             <td>今天客厅挂这张 / 周一到周日各挂什么</td>
+          <td class="action-cell"></td>
           </tr>
           <tr>
             <td><div class="cell-label">《家庭任务小游戏》</div></td>
@@ -804,8 +815,10 @@
             <td>把家务和习惯养成变成游戏化任务</td>
             <td>互动图文、挑战视频</td>
             <td>今天谁先完成任务 / 把刷牙变成闯关游戏</td>
+          <td class="action-cell"></td>
           </tr>
         </tbody>
+        <tbody id="fun-themes-body"></tbody>
       </table>
     </div>
   </div>
@@ -880,7 +893,6 @@
           <div class="sp-section-label">轻趣味方向</div>
           <ul class="sp-list" id="pool-fun-便利贴"><li>一张便签的100种玩法</li><li>家里的话，也可以很好玩</li><li>如果家里的画框会接梗</li></ul>
         </div>
-        </div>
       </div>
 
       <!-- AI创作 -->
@@ -919,7 +931,6 @@
         <div class="sp-section">
           <div class="sp-section-label">轻趣味方向</div>
           <ul class="sp-list" id="pool-fun-AI创作"><li>今天全家玩什么</li><li>孩子脑袋里的世界（轻玩法版）</li><li>让画框画点离谱的</li></ul>
-        </div>
         </div>
       </div>
 
@@ -960,7 +971,6 @@
           <div class="sp-section-label">轻趣味方向</div>
           <ul class="sp-list" id="pool-fun-家庭日程"><li>家里的话，也可以很好玩</li><li>抬头就能知道的牵挂（轻松版）</li><li>一个画框省掉多少重复对话</li></ul>
         </div>
-        </div>
       </div>
 
       <!-- 习惯养成 -->
@@ -1000,7 +1010,6 @@
           <div class="sp-section-label">轻趣味方向</div>
           <ul class="sp-list" id="pool-fun-习惯养成"><li>把无聊日常玩出花</li><li>家庭任务小游戏</li><li>今天全家玩什么</li></ul>
         </div>
-        </div>
       </div>
 
       <!-- 家庭美术馆 -->
@@ -1039,7 +1048,6 @@
         <div class="sp-section">
           <div class="sp-section-label">轻趣味方向</div>
           <ul class="sp-list" id="pool-fun-家庭美术馆"><li>今天客厅挂什么</li><li>把无聊日常玩出花</li><li>画框今天又整活了</li></ul>
-        </div>
         </div>
       </div>
 
@@ -1210,7 +1218,7 @@ async function loadThemes() {
   const table = document.getElementById('themes-table')
   const tbody = document.getElementById('themes-body')
   try {
-    const data = await sbFetch('GET', 'themes', null, null, 'order=sort_order.asc')
+    const data = await sbFetch('GET', 'themes', null, null, 'is_fun=eq.false&order=sort_order.asc')
     themesData = data || []
     renderThemes()
     status.style.display = 'none'
@@ -1250,6 +1258,7 @@ function renderThemes() {
 
 function openThemeModal(id) {
   showErr('theme-modal-error', '')
+  document.getElementById('theme-modal').dataset.isFun = 'false'
   if (id) {
     const t = themesData.find(x => x.id === id)
     if (!t) return
@@ -1279,6 +1288,7 @@ function openThemeModal(id) {
 async function saveTheme() {
   showErr('theme-modal-error', '')
   const id = document.getElementById('theme-id').value
+  const isFun = document.getElementById('theme-modal').dataset.isFun === 'true'
   const payload = {
     name: document.getElementById('theme-name').value.trim(),
     suitable_sellpoints: textToArr(document.getElementById('theme-sellpoints').value),
@@ -1286,7 +1296,8 @@ async function saveTheme() {
     conflict: document.getElementById('theme-conflict').value.trim(),
     suitable_formats: textToArr(document.getElementById('theme-formats').value),
     example_titles: textToArr(document.getElementById('theme-titles').value),
-    sort_order: parseInt(document.getElementById('theme-sort').value) || 0
+    sort_order: parseInt(document.getElementById('theme-sort').value) || 0,
+    is_fun: isFun
   }
   if (!payload.name) { showErr('theme-modal-error', '母题名称不能为空'); return }
   try {
@@ -1296,8 +1307,13 @@ async function saveTheme() {
       await sbFetch('POST', 'themes', payload)
     }
     closeModal('theme-modal')
-    themesLoaded = false
-    loadThemes()
+    if (isFun) {
+      funThemesLoaded = false
+      loadFunThemes()
+    } else {
+      themesLoaded = false
+      loadThemes()
+    }
   } catch(e) {
     showErr('theme-modal-error', '保存失败：' + e.message)
   }
@@ -1558,6 +1574,74 @@ function confirmDelete(table, id, callback) {
   openModal('confirm-modal')
 }
 
+// =====================
+// 趣味主题包 CRUD（复用 themes 表，用 is_fun 字段区分）
+// =====================
+let funThemesLoaded = false
+let funThemesData = []
+
+// 在切换到 themes tab 时同时加载趣味主题
+const _origLoadThemes = typeof loadThemes !== 'undefined' ? loadThemes : null
+
+async function loadFunThemes() {
+  funThemesLoaded = true
+  const tbody = document.getElementById('fun-themes-body')
+  if (!tbody) return
+  try {
+    const data = await sbFetch('GET', 'themes', null, null, 'is_fun=eq.true&order=sort_order.asc')
+    funThemesData = data || []
+    renderFunThemes()
+  } catch(e) {
+    console.error('加载趣味主题失败：', e.message)
+  }
+}
+
+function renderFunThemes() {
+  const tbody = document.getElementById('fun-themes-body')
+  if (!tbody) return
+  tbody.innerHTML = funThemesData.map(t => `<tr>
+    <td><div class="cell-label">${t.name || ''}</div></td>
+    <td>${(t.suitable_sellpoints || []).map(s => `<span class="t-theme">${s}</span>`).join(' ')}</td>
+    <td>${t.target_audience || ''}</td>
+    <td>${t.conflict || ''}</td>
+    <td>${(t.suitable_formats || []).map(f => `<span class="tag tag-gray">${f}</span>`).join('')}</td>
+    <td>${(t.example_titles || []).join(' / ')}</td>
+    <td class="action-cell">
+      <button class="btn btn-sm" onclick="openFunThemeModal(${t.id})">编辑</button>
+      <button class="btn btn-sm btn-danger" onclick="confirmDelete('themes', ${t.id}, () => { funThemesLoaded = false; loadFunThemes() })">删除</button>
+    </td>
+  </tr>`).join('')
+}
+
+function openFunThemeModal(id) {
+  showErr('theme-modal-error', '')
+  document.getElementById('theme-modal').dataset.isFun = 'true'
+  if (id) {
+    const t = funThemesData.find(x => x.id === id)
+    if (!t) return
+    document.getElementById('theme-modal-title').textContent = '编辑趣味主题'
+    document.getElementById('theme-id').value = t.id
+    document.getElementById('theme-name').value = t.name || ''
+    document.getElementById('theme-sellpoints').value = arrToText(t.suitable_sellpoints)
+    document.getElementById('theme-audience').value = t.target_audience || ''
+    document.getElementById('theme-conflict').value = t.conflict || ''
+    document.getElementById('theme-formats').value = arrToText(t.suitable_formats)
+    document.getElementById('theme-titles').value = arrToText(t.example_titles)
+    document.getElementById('theme-sort').value = t.sort_order || 0
+  } else {
+    document.getElementById('theme-modal-title').textContent = '新增趣味主题'
+    document.getElementById('theme-id').value = ''
+    document.getElementById('theme-name').value = ''
+    document.getElementById('theme-sellpoints').value = ''
+    document.getElementById('theme-audience').value = ''
+    document.getElementById('theme-conflict').value = ''
+    document.getElementById('theme-formats').value = ''
+    document.getElementById('theme-titles').value = ''
+    document.getElementById('theme-sort').value = 0
+  }
+  openModal('theme-modal')
+}
+
 // showTab — 兼容旧版 onclick="showTab('arch', this)"
 function showTab(id, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
@@ -1567,6 +1651,7 @@ function showTab(id, btn) {
   window.scrollTo({ top: 0, behavior: 'smooth' })
   if (id === 'matrix' && !matrixLoaded) loadMatrix()
   if (id === 'themes' && !themesLoaded) loadThemes()
+  if (id === 'themes' && !funThemesLoaded) loadFunThemes()
   if (id === 'formats' && !formatsLoaded) loadFormats()
 }
 
