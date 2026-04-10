@@ -28,17 +28,18 @@
 
   /* ── MASTHEAD ── */
   .masthead {
-    background: var(--black);
+    background: var(--red);
     color: white;
     padding: 48px 60px 40px;
-    border-bottom: 3px solid var(--red);
+    border-bottom: 3px solid var(--black);
   }
   .masthead-eyebrow {
     font-size: 11px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--red);
+    color: white;
     margin-bottom: 12px;
+    opacity: 0.9;
   }
   .masthead h1 {
     font-family: Georgia, "Times New Roman", serif;
@@ -50,8 +51,9 @@
   }
   .masthead-sub {
     font-size: 13px;
-    color: #aaa;
+    color: white;
     letter-spacing: 0.05em;
+    opacity: 0.85;
   }
 
   /* ── NAV ── */
@@ -479,6 +481,7 @@
     </div>
 
     <!-- ══ SECTION 1B: 场景库 ══ -->
+    <div style="display: none;">
     <div class="section-header" style="margin-top: 64px;">
       <span class="section-num">场景库</span>
       <span class="section-title">场景问题库</span>
@@ -604,6 +607,7 @@
         </tbody>
       </table>
     </div>
+    </div><!-- end hidden scene library -->
   </div>
 
   <!-- ══ SECTION 2: 运营矩阵 ══ -->
