@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Magicframe 运营内容池</title>
+<title>Magicframe — 运营内容池</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -361,376 +361,406 @@
     .theme-right { grid-template-columns: 1fr 1fr; }
     .theme-left { border-right: none; border-bottom: 1px solid var(--beige); }
   }
+
+  /* ── CRUD UI ── */
+  .btn-add {
+    background: none;
+    border: 1px solid var(--red);
+    color: var(--red);
+    padding: 8px 18px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-add:hover { background: var(--red); color: white; }
+
+  .btn { background: none; border: 1px solid var(--light-gray); color: #555; padding: 5px 12px; font-size: 11px; cursor: pointer; font-family: inherit; letter-spacing: 0.04em; }
+  .btn:hover { border-color: #2a2a2a; color: #2a2a2a; }
+  .btn-danger { border-color: #c0392b; color: #c0392b; }
+  .btn-danger:hover { background: #c0392b; color: white; }
+  .btn-sm { padding: 4px 10px; font-size: 11px; }
+
+  .action-cell { white-space: nowrap; }
+  .action-cell .btn + .btn { margin-left: 6px; }
+
+  .td-name { font-weight: 600; color: #2a2a2a; }
+
+  .tag { display: inline-block; font-size: 11px; color: var(--red); border: 1px solid var(--red); padding: 2px 7px; margin: 2px 2px 2px 0; letter-spacing: 0.02em; white-space: nowrap; }
+  .tag-gray { color: #555; border-color: var(--light-gray); }
+
+  .idea-list { list-style: none; padding: 0; margin: 0; }
+  .idea-list li { font-size: 12px; color: #555; padding: 2px 0 2px 12px; position: relative; line-height: 1.5; }
+  .idea-list li::before { content: "—"; position: absolute; left: 0; color: var(--light-gray); }
+  .empty-list { font-size: 12px; color: #bbb; }
+
+  /* card edit button */
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--red); padding-bottom: 12px; margin-bottom: 18px; }
+  .card-header-left { flex: 1; }
+  .card-keywords { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 16px; }
+  .card-body {}
+  .card-section { margin-bottom: 16px; }
+  .card-section-title { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 6px; border-left: 2px solid var(--red); padding-left: 8px; }
+  .card-section ul { list-style: none; padding: 0; }
+  .card-section ul li { font-size: 13px; color: #444; padding: 3px 0 3px 14px; position: relative; line-height: 1.6; }
+  .card-section ul li::before { content: "—"; position: absolute; left: 0; color: var(--light-gray); font-size: 11px; top: 5px; }
+  .card-eyebrow { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); margin-bottom: 4px; }
+  .card-title { font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-weight: normal; letter-spacing: 0.02em; }
+  .card-subtitle { font-size: 12px; color: var(--mid-gray); margin-top: 2px; }
+
+  /* modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: white; width: 100%; max-width: 560px; border: 1px solid var(--beige); max-height: 90vh; display: flex; flex-direction: column; }
+  .modal-head { background: #2a2a2a; color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .modal-head h3 { font-size: 14px; font-weight: 500; letter-spacing: 0.06em; }
+  .modal-close { background: none; border: none; color: white; font-size: 20px; cursor: pointer; line-height: 1; padding: 0; }
+  .modal-body { padding: 24px; overflow-y: auto; }
+  .modal-foot { padding: 16px 24px; border-top: 1px solid var(--beige); display: flex; gap: 10px; justify-content: flex-end; flex-shrink: 0; }
+  .form-row { margin-bottom: 16px; }
+  .form-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mid-gray); margin-bottom: 6px; display: block; }
+  .form-hint { font-size: 11px; color: #bbb; margin-top: 4px; }
+  .form-input, .form-textarea { width: 100%; border: 1px solid var(--light-gray); padding: 8px 10px; font-size: 13px; font-family: inherit; color: #2a2a2a; outline: none; background: white; }
+  .form-input:focus, .form-textarea:focus { border-color: var(--red); }
+  .form-textarea { min-height: 80px; resize: vertical; line-height: 1.6; }
+  .btn-primary { background: var(--red); color: white; border: 1px solid var(--red); padding: 9px 22px; font-size: 13px; cursor: pointer; font-family: inherit; }
+  .btn-primary:hover { background: #8e2e1c; }
+  .btn-cancel { background: none; border: 1px solid var(--light-gray); color: #555; padding: 9px 22px; font-size: 13px; cursor: pointer; font-family: inherit; }
+  .btn-cancel:hover { border-color: #2a2a2a; color: #2a2a2a; }
+  .error-msg { color: #c0392b; font-size: 12px; margin-top: 8px; display: none; }
 </style>
 </head>
 <body>
 
-<!-- MASTHEAD -->
 <div class="masthead">
-  <div class="masthead-left">
-    <div class="eyebrow">Brand Content System · 2026</div>
-    <h1>Magicframe &nbsp; 运营内容池</h1>
-  </div>
-  <div class="masthead-right">
-    <div class="tagline">让家庭关系里的摩擦变轻 · 卖点 × 场景 × 母题 × 形式</div>
-  </div>
+  <div class="masthead-eyebrow">Brand Content System · 2026</div>
+  <h1>Magicframe<br>运营内容池</h1>
+  <div class="masthead-sub">让家庭关系里的摩擦变轻 &nbsp;·&nbsp; 卖点 × 场景 × 母题 × 形式</div>
 </div>
 
-<!-- NAV -->
-<div class="nav-wrap">
-  <nav class="nav">
-    <div class="nav-tab active" data-tab="arch">内容架构</div>
-    <div class="nav-tab" data-tab="matrix">运营矩阵</div>
-    <div class="nav-tab" data-tab="themes">母题内容包</div>
-    <div class="nav-tab" data-tab="formats">内容形式</div>
-    <div class="nav-tab" data-tab="pool">卖点内容池</div>
-  </nav>
-</div>
+<nav class="nav-bar">
+  <button class="nav-btn active" onclick="showTab('arch', this)">内容架构</button>
+  <button class="nav-btn" onclick="showTab('matrix', this)">运营矩阵</button>
+  <button class="nav-btn" onclick="showTab('themes', this)">母题内容包</button>
+  <button class="nav-btn" onclick="showTab('formats', this)">内容形式</button>
+  <button class="nav-btn" onclick="showTab('pool', this)">卖点内容池</button>
+</nav>
 
-<div class="main">
+<div class="page-wrap">
 
-<!-- TAB 1: 内容架构 -->
-<div class="tab-panel active" id="tab-arch">
-  <p class="section-desc">先想清楚产品能解决什么，再看这个问题会在什么场景里发生，接着决定用什么主题去讲，最后再选做成视频、图文还是文章。</p>
+  <!-- ══ SECTION 1: 内容架构 ══ -->
+  <div id="arch" class="section active">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">内容架构</span>
+    </div>
+    <p class="section-desc">
+      先想清楚产品能解决什么，再看这个问题会在什么场景里发生，接着决定用什么主题去讲，最后再选做成视频、图文还是文章。
+    </p>
 
-  <div class="arch-diagram">
-    <div class="arch-row">
-      <div class="arch-label">
-        <span class="num">01</span>
-        <span class="layer-name">卖点层</span>
-        <span class="layer-sub">卖点内容包</span>
+    <div class="layer-stack">
+      <div class="layer-row">
+        <div class="layer-num"><span>01</span>卖点层</div>
+        <div class="layer-body">
+          <div class="layer-name">卖点内容包</div>
+          <div class="layer-desc">产品到底有哪些能力 — 便利贴 / AI创作 / 家庭日程 / 习惯养成 / 家庭美术馆</div>
+        </div>
       </div>
-      <div class="arch-body">
-        <strong>产品到底有哪些能力</strong>
-        <div class="items">便利贴 / AI创作 / 家庭日程 / 习惯养成 / 家庭美术馆</div>
+      <div class="layer-row">
+        <div class="layer-num"><span>02</span>场景层</div>
+        <div class="layer-body">
+          <div class="layer-name">场景问题包</div>
+          <div class="layer-desc">用户在家庭里具体遇到什么问题 — 冷战没人先开口 / 总问几点到家 / 刷牙睡觉天天靠催 / 照片躺在手机里…</div>
+        </div>
       </div>
-    </div>
-    <div class="arch-row">
-      <div class="arch-label">
-        <span class="num">02</span>
-        <span class="layer-name">场景层</span>
-        <span class="layer-sub">场景问题包</span>
+      <div class="layer-row">
+        <div class="layer-num"><span>03</span>母题层</div>
+        <div class="layer-body">
+          <div class="layer-name">母题内容包</div>
+          <div class="layer-desc">用什么传播语言去讲这些问题 — 《这个家最常出现的一句话》/ 《那些没说出口的话》/ 《把催促变成主动》…</div>
+        </div>
       </div>
-      <div class="arch-body">
-        <strong>用户在家庭里具体遇到什么问题</strong>
-        <div class="items">冷战没人先开口 / 总问几点到家 / 刷牙睡觉天天靠催 / 照片躺在手机里…</div>
-      </div>
-    </div>
-    <div class="arch-row">
-      <div class="arch-label">
-        <span class="num">03</span>
-        <span class="layer-name">母题层</span>
-        <span class="layer-sub">母题内容包</span>
-      </div>
-      <div class="arch-body">
-        <strong>用什么传播语言去讲这些问题</strong>
-        <div class="items">「这个家最常出现的一句话」/ 「那些没说出口的话」/ 「把催促变成主动」…</div>
+      <div class="layer-row">
+        <div class="layer-num"><span>04</span>形式层</div>
+        <div class="layer-body">
+          <div class="layer-name">内容形式</div>
+          <div class="layer-desc">最后做成什么 — 视频 / 图文 / 文章 / 产品页，每种形式有不同的传播目标和标题风格</div>
+        </div>
       </div>
     </div>
-    <div class="arch-row">
-      <div class="arch-label">
-        <span class="num">04</span>
-        <span class="layer-name">形式层</span>
-        <span class="layer-sub">内容形式</span>
-      </div>
-      <div class="arch-body">
-        <strong>最后做成什么</strong>
-        <div class="items">视频 / 图文 / 文章 / 产品页，每种形式有不同的传播目标和标题风格</div>
-      </div>
+
+    <div class="section-header" style="margin-top: 52px;">
+      <span class="section-num">使用方式</span>
+      <span class="section-title">如何用这套系统选题</span>
     </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>目标</th>
+            <th>选卖点</th>
+            <th>选母题</th>
+            <th>选形式</th>
+            <th>示例主题</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="cell-label">打妈妈人群共鸣</div></td>
+            <td>习惯养成</td>
+            <td><span class="t-theme">这个家最常出现的一句话</span></td>
+            <td>视频 + 图文 + 文章</td>
+            <td>快去刷牙，别磨蹭了</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">做搜索承接</div></td>
+            <td>家庭美术馆</td>
+            <td><span class="t-theme">把爱挂在家里</span></td>
+            <td>文章 + 产品页</td>
+            <td>AI画框和电子相框有什么区别</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">亲子关系共鸣</div></td>
+            <td>AI创作</td>
+            <td><span class="t-theme">孩子脑袋里的世界</span></td>
+            <td>视频 + 案例故事</td>
+            <td>有些胡说八道，其实是想象力</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">夫妻关系共鸣</div></td>
+            <td>便利贴</td>
+            <td><span class="t-theme">那些没说出口的话</span></td>
+            <td>视频 + 图文</td>
+            <td>有些爱，也可以轻轻说出口</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">双职工家庭痛点</div></td>
+            <td>家庭日程</td>
+            <td><span class="t-theme">抬头就能知道的牵挂</span></td>
+            <td>视频 + 场景故事</td>
+            <td>有些牵挂，抬头就能知道</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══ SECTION 1B: 场景库 ══ -->
+    <div style="display: none;">
+    <div class="section-header" style="margin-top: 64px;">
+      <span class="section-num">场景库</span>
+      <span class="section-title">场景问题库</span>
+    </div>
+    <p class="section-desc">
+      场景回答「发生了什么」，场景背后问题回答「为什么这个场景值得做内容」，情绪标签回答「观众会被什么情绪打中」。
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="min-width:140px">场景名称</th>
+            <th style="min-width:100px">主要人物</th>
+            <th style="min-width:120px">所属卖点</th>
+            <th style="min-width:180px">场景描述</th>
+            <th style="min-width:160px">场景背后问题</th>
+            <th style="min-width:140px">情绪标签</th>
+            <th style="min-width:180px">可挂母题</th>
+            <th style="min-width:120px">适合形式</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="cell-label">深夜和解</div></td>
+            <td>夫妻/伴侣</td>
+            <td>便利贴</td>
+            <td>冷战后没人先开口，深夜在便签上写下道歉或关心</td>
+            <td>有些话说不出口，当面道歉太难</td>
+            <td>愧疚、温柔、和解</td>
+            <td><span class="t-theme">那些没说出口的话</span></td>
+            <td>情绪短片、长图</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">孩子脑洞</div></td>
+            <td>亲子</td>
+            <td>AI创作</td>
+            <td>孩子说出天马行空的想法，家长说「别闹了」或「画得不像」</td>
+            <td>家长接不住孩子脑洞，想象力被打断</td>
+            <td>遗憾、愧疚、惊喜</td>
+            <td><span class="t-theme">孩子脑袋里的世界</span></td>
+            <td>短视频、图文</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">几点到家</div></td>
+            <td>夫妻/家人</td>
+            <td>家庭日程</td>
+            <td>反复追问「几点到家」，追问久了变成争吵</td>
+            <td>信息不确定带来焦虑，追问变成压力</td>
+            <td>焦虑、烦躁、牵挂</td>
+            <td><span class="t-theme">抬头就能知道的牵挂</span></td>
+            <td>生活短片、场景文</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">出门忘带东西</div></td>
+            <td>妈妈/孩子</td>
+            <td>家庭日程</td>
+            <td>出门前反复问「东西带了吗」，还是会忘</td>
+            <td>家庭信息分散，提醒不到位</td>
+            <td>无奈、疲惫</td>
+            <td><span class="t-theme">抬头就能知道的牵挂</span></td>
+            <td>图文、场景文</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">刷牙睡觉</div></td>
+            <td>妈妈/孩子</td>
+            <td>习惯养成</td>
+            <td>「快去刷牙，别磨蹭了」每天重复，孩子被催、大人也累</td>
+            <td>重复提醒带来疲惫，教育像监工</td>
+            <td>烦躁、无奈、拉扯</td>
+            <td><span class="t-theme">把催促变成主动</span> <span class="t-theme">这个家最常出现的一句话</span></td>
+            <td>场景短片、教育文</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">整理书包</div></td>
+            <td>妈妈/孩子</td>
+            <td>习惯养成</td>
+            <td>每天催促整理书包，变成对抗</td>
+            <td>教育总像考核，缺少共同参与</td>
+            <td>疲惫、想轻松</td>
+            <td><span class="t-theme">把催促变成主动</span></td>
+            <td>功能长图、教育文</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">照片躺在手机里</div></td>
+            <td>全家</td>
+            <td>家庭美术馆</td>
+            <td>拍了很多照片，都躺在手机里吃灰</td>
+            <td>普通日子没有被珍藏，家里缺少情感装饰</td>
+            <td>遗憾、温情</td>
+            <td><span class="t-theme">把爱挂在家里</span></td>
+            <td>温情短片、氛围图文</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">家务后的治愈</div></td>
+            <td>妈妈</td>
+            <td>家庭美术馆</td>
+            <td>家务结束后，抬头看到旧照片被治愈</td>
+            <td>日常劳累需要情感慰藉</td>
+            <td>治愈、温暖</td>
+            <td><span class="t-theme">把爱挂在家里</span></td>
+            <td>温情短片</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">晚饭等待</div></td>
+            <td>夫妻</td>
+            <td>家庭日程</td>
+            <td>不知道对方几点到家，晚饭不知道什么时候热</td>
+            <td>时间不确定带来的等待焦虑</td>
+            <td>牵挂、焦虑</td>
+            <td><span class="t-theme">抬头就能知道的牵挂</span></td>
+            <td>生活短片</td>
+          </tr>
+          <tr>
+            <td><div class="cell-label">远程关心</div></td>
+            <td>家人</td>
+            <td>便利贴</td>
+            <td>想关心家人，但微信文字太冷</td>
+            <td>关心太肉麻，需要更温柔的表达方式</td>
+            <td>关心、温柔</td>
+            <td><span class="t-theme">那些没说出口的话</span></td>
+            <td>图文、文章</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div><!-- end hidden scene library -->
   </div>
 
-  <h2 class="section-heading">如何用这套系统选题</h2>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>目标</th>
-          <th>选卖点</th>
-          <th>选母题</th>
-          <th>选形式</th>
-          <th>示例主题</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>打妈妈人群共鸣</td>
-          <td>习惯养成</td>
-          <td>这个家最常出现的一句话</td>
-          <td>视频+图文+文章</td>
-          <td>快去刷牙，别磨蹭了</td>
-        </tr>
-        <tr>
-          <td>做搜索承接</td>
-          <td>家庭美术馆</td>
-          <td>把爱挂在家里</td>
-          <td>文章+产品页</td>
-          <td>AI画框和电子相框有什么区别</td>
-        </tr>
-        <tr>
-          <td>亲子关系共鸣</td>
-          <td>AI创作</td>
-          <td>孩子脑袋里的世界</td>
-          <td>视频+案例故事</td>
-          <td>有些胡说八道，其实是想象力</td>
-        </tr>
-        <tr>
-          <td>夫妻关系共鸣</td>
-          <td>便利贴</td>
-          <td>那些没说出口的话</td>
-          <td>视频+图文</td>
-          <td>有些爱，也可以轻轻说出口</td>
-        </tr>
-        <tr>
-          <td>双职工家庭痛点</td>
-          <td>家庭日程</td>
-          <td>抬头就能知道的牵挂</td>
-          <td>视频+场景故事</td>
-          <td>有些牵挂，抬头就能知道</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- TAB 2: 运营矩阵 -->
-<div class="tab-panel" id="tab-matrix">
-  <p class="section-desc">五个卖点 × 七个维度。横向可以看到一个卖点能延展出哪些内容，纵向可以比较不同卖点分别更适合讲什么、怎么讲。</p>
-  <div id="matrix-status" class="loading">加载中...</div>
-  <div class="table-wrap">
-    <table id="matrix-table" class="matrix-table" style="display:none">
-      <thead>
-        <tr>
-          <th>卖点内容包</th>
-          <th>核心用户问题</th>
-          <th>场景名称/场景包</th>
-          <th>场景背后问题</th>
-          <th>情绪标签</th>
-          <th>可挂接的母题</th>
-          <th>视频方向</th>
-          <th>图文方向</th>
-          <th>文章方向</th>
-          <th>产品页方向</th>
-        </tr>
-      </thead>
-      <tbody id="matrix-body"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- TAB 3: 母题内容包 -->
-<div class="tab-panel" id="tab-themes">
-  <p class="section-desc">同一个卖点，不一定只能用一种方式讲。母题就是帮我们找到：哪种讲法更容易让用户有感觉、更愿意看下去、更容易记住。</p>
-  <div class="table-actions">
-    <button class="btn" onclick="openThemeModal()">+ 新增母题</button>
-    <span id="themes-error" class="error-msg" style="display:none"></span>
-  </div>
-  <div id="themes-status" class="loading">加载中...</div>
-  <div class="table-wrap">
-    <table id="themes-table" style="display:none">
-      <thead>
-        <tr>
-          <th>母题内容包</th>
-          <th>适合挂接的卖点</th>
-          <th>主要人群</th>
-          <th>适合讲的冲突</th>
-          <th>更适合的内容形式</th>
-          <th>代表标题/句子</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody id="themes-body"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- TAB 4: 内容形式 -->
-<div class="tab-panel" id="tab-formats">
-  <p class="section-desc">同一个卖点或母题，用不同形式/内容去做。</p>
-  <div class="table-actions">
-    <button class="btn" onclick="openFormatModal()">+ 新增内容形式</button>
-    <span id="formats-error" class="error-msg" style="display:none"></span>
-  </div>
-  <div id="formats-status" class="loading">加载中...</div>
-  <div class="table-wrap">
-    <table id="formats-table" style="display:none">
-      <thead>
-        <tr>
-          <th>内容形式</th>
-          <th>最适合承接什么</th>
-          <th>最适合挂接的卖点</th>
-          <th>最适合挂接的母题</th>
-          <th>主要作用</th>
-          <th>标题风格</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody id="formats-body"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- TAB 5: 卖点内容池 -->
-<div class="tab-panel" id="tab-pool">
-  <p class="section-desc">这里是按卖点整理好的内容素材池。如果确定要讲哪个卖点，就可以直接来这里找：适合挂哪个母题、视频、图文、文章。</p>
-  <div id="pool-status" class="loading">加载中...</div>
-  <div id="pool-grid" class="cards-grid" style="display:none"></div>
-</div>
-
-</div><!-- end .main -->
-
-<!-- THEME MODAL -->
-<div class="modal-overlay" id="theme-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="theme-modal-title">新增母题</h3>
-      <button class="modal-close" onclick="closeModal('theme-modal')">x</button>
+  <!-- ══ SECTION 2: 运营矩阵 ══ -->
+  <div id="matrix" class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">运营矩阵总表</span>
     </div>
-    <div class="modal-body">
-      <input type="hidden" id="theme-id">
-      <div class="form-group">
-        <label>母题名称</label>
-        <input type="text" id="theme-name" placeholder="例：这个家最常出现的一句话">
-      </div>
-      <div class="form-group">
-        <label>适合挂接的卖点</label>
-        <textarea id="theme-sellpoints" placeholder="每行一个卖点名称"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>主要人群</label>
-        <input type="text" id="theme-audience" placeholder="例：有孩子的妈妈">
-      </div>
-      <div class="form-group">
-        <label>适合讲的冲突</label>
-        <input type="text" id="theme-conflict" placeholder="例：催促 vs 主动">
-      </div>
-      <div class="form-group">
-        <label>更适合的内容形式</label>
-        <textarea id="theme-formats" placeholder="每行一个形式"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>代表标题/句子</label>
-        <textarea id="theme-titles" placeholder="每行一个标题或句子"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>排序</label>
-        <input type="number" id="theme-sort" value="0">
-      </div>
-      <div id="theme-modal-error" class="error-msg" style="display:none"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-gray" onclick="closeModal('theme-modal')">取消</button>
-      <button class="btn btn-solid" onclick="saveTheme()">保存</button>
+    <p class="section-desc">五个卖点 × 七个维度。横向可以看到一个卖点能延展出哪些内容，纵向可以比较不同卖点分别更适合讲什么、怎么讲。</p>
+    <div class="table-wrap">
+      <p id="matrix-status" style="padding:20px;color:#888;">加载中...</p>
+      <table id="matrix-table" style="display:none;min-width:1200px">
+        <thead><tr>
+          <th style="min-width:100px">卖点</th>
+          <th style="min-width:160px">核心用户问题</th>
+          <th style="min-width:140px">场景名称</th>
+          <th style="min-width:160px">场景背后问题</th>
+          <th style="min-width:120px">情绪标签</th>
+          <th style="min-width:140px">关键词</th>
+          <th style="min-width:160px">视频方向</th>
+          <th style="min-width:160px">图文方向</th>
+          <th style="min-width:160px">文章方向</th>
+          <th style="min-width:140px">产品页方向</th>
+        </tr></thead>
+        <tbody id="matrix-body"></tbody>
+      </table>
     </div>
   </div>
-</div>
-
-<!-- FORMAT MODAL -->
-<div class="modal-overlay" id="format-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="format-modal-title">新增内容形式</h3>
-      <button class="modal-close" onclick="closeModal('format-modal')">x</button>
+  <div id="themes" class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">母题内容包矩阵</span>
     </div>
-    <div class="modal-body">
-      <input type="hidden" id="format-id">
-      <div class="form-group">
-        <label>内容形式名称</label>
-        <input type="text" id="format-name" placeholder="例：短视频">
-      </div>
-      <div class="form-group">
-        <label>最适合承接什么</label>
-        <input type="text" id="format-best-for" placeholder="例：情绪共鸣、场景代入">
-      </div>
-      <div class="form-group">
-        <label>最适合挂接的卖点</label>
-        <textarea id="format-sellpoints" placeholder="每行一个卖点名称"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>最适合挂接的母题</label>
-        <textarea id="format-themes" placeholder="每行一个母题名称"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>主要作用</label>
-        <input type="text" id="format-purpose" placeholder="例：触达新用户、引发共鸣">
-      </div>
-      <div class="form-group">
-        <label>标题风格</label>
-        <input type="text" id="format-title-style" placeholder="例：口语化、有冲突感">
-      </div>
-      <div class="form-group">
-        <label>排序</label>
-        <input type="number" id="format-sort" value="0">
-      </div>
-      <div id="format-modal-error" class="error-msg" style="display:none"></div>
+    <p class="section-desc">同一个卖点，不一定只能用一种方式讲。母题就是帮我们找到：哪种讲法更容易让用户有感觉、更愿意看下去、更容易记住。</p>
+    <div style="margin-bottom:16px">
+      <button class="btn-add" onclick="openThemeModal(null)">+ 新增母题</button>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-gray" onclick="closeModal('format-modal')">取消</button>
-      <button class="btn btn-solid" onclick="saveFormat()">保存</button>
+    <div class="table-wrap">
+      <p id="themes-status" style="padding:20px;color:#888;">加载中...</p>
+      <table id="themes-table" style="display:none">
+        <thead><tr>
+          <th style="min-width:180px">母题内容包</th>
+          <th style="min-width:160px">适合挂接的卖点</th>
+          <th style="min-width:120px">主要人群</th>
+          <th style="min-width:140px">适合讲的冲突</th>
+          <th style="min-width:160px">更适合的内容形式</th>
+          <th style="min-width:180px">代表标题 / 句子</th>
+          <th style="min-width:100px">操作</th>
+        </tr></thead>
+        <tbody id="themes-body"></tbody>
+      </table>
     </div>
   </div>
-</div>
-
-<!-- POOL EDIT MODAL -->
-<div class="modal-overlay" id="pool-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h3 id="pool-modal-title">编辑内容池</h3>
-      <button class="modal-close" onclick="closeModal('pool-modal')">x</button>
+  <div id="formats" class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">内容形式矩阵</span>
     </div>
-    <div class="modal-body">
-      <input type="hidden" id="pool-record-id">
-      <input type="hidden" id="pool-sellpoint-id">
-      <div class="form-group">
-        <label>视频方向</label>
-        <textarea id="pool-video" style="min-height:100px" placeholder="每行一个方向"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>图文方向</label>
-        <textarea id="pool-image" style="min-height:100px" placeholder="每行一个方向"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>文章方向</label>
-        <textarea id="pool-article" style="min-height:100px" placeholder="每行一个方向"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div class="form-group">
-        <label>产品页方向</label>
-        <textarea id="pool-product" style="min-height:100px" placeholder="每行一个方向"></textarea>
-        <div class="form-hint">每行一个</div>
-      </div>
-      <div id="pool-modal-error" class="error-msg" style="display:none"></div>
+    <p class="section-desc">同一个卖点或母题，用不同形式/内容去做。</p>
+    <div style="margin-bottom:16px">
+      <button class="btn-add" onclick="openFormatModal(null)">+ 新增内容形式</button>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-gray" onclick="closeModal('pool-modal')">取消</button>
-      <button class="btn btn-solid" onclick="savePool()">保存</button>
+    <div class="table-wrap">
+      <p id="formats-status" style="padding:20px;color:#888;">加载中...</p>
+      <table id="formats-table" style="display:none">
+        <thead><tr>
+          <th style="min-width:80px">内容形式</th>
+          <th style="min-width:160px">最适合承接什么</th>
+          <th style="min-width:180px">最适合挂接的卖点</th>
+          <th style="min-width:180px">最适合挂接的母题</th>
+          <th style="min-width:140px">主要作用</th>
+          <th style="min-width:140px">标题风格</th>
+          <th style="min-width:100px">操作</th>
+        </tr></thead>
+        <tbody id="formats-body"></tbody>
+      </table>
     </div>
   </div>
-</div>
-
-<!-- CONFIRM MODAL -->
-<div class="modal-overlay" id="confirm-modal">
-  <div class="modal" style="max-width:400px">
-    <div class="modal-header">
-      <h3>确认删除</h3>
-      <button class="modal-close" onclick="closeModal('confirm-modal')">x</button>
+  <div id="pool" class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">卖点内容池</span>
     </div>
-    <div class="modal-body">
-      <p style="font-size:14px">确定要删除这条记录吗？此操作不可撤销。</p>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-gray" onclick="closeModal('confirm-modal')">取消</button>
-      <button class="btn btn-danger btn-solid" id="confirm-delete-btn">删除</button>
-    </div>
+    <p class="section-desc">这里是按卖点整理好的内容素材池。如果确定要讲哪个卖点，就可以直接来这里找：适合挂哪个母题、视频、图文、文章。</p>
+    <p id="pool-status" style="padding:20px 0;color:#888;">加载中...</p>
+    <div id="pool-grid" class="cards-grid" style="display:none"></div>
   </div>
-</div>
+  
+</div><!-- /page-wrap -->
 
 <script>
 const SUPABASE_URL = 'https://jjaiykfkxcexsmuuzjoo.supabase.co'
@@ -1220,6 +1250,168 @@ function confirmDelete(table, id, callback) {
   document.getElementById('confirm-delete-btn').onclick = _deleteCallback
   openModal('confirm-modal')
 }
+
+// showTab — 兼容旧版 onclick="showTab('arch', this)"
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'))
+  document.getElementById(id).classList.add('active')
+  if (btn) btn.classList.add('active')
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+  if (id === 'matrix' && !matrixLoaded) loadMatrix()
+  if (id === 'themes' && !themesLoaded) loadThemes()
+  if (id === 'formats' && !formatsLoaded) loadFormats()
+  if (id === 'pool' && !poolLoaded) loadPool()
+}
 </script>
+
+<!-- MODALS -->
+<!-- Theme Modal -->
+<div class="modal-overlay" id="theme-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="theme-modal-title">新增母题</h3>
+      <button class="modal-close" onclick="closeModal('theme-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="theme-id">
+      <div class="form-row">
+        <label class="form-label">母题名称</label>
+        <input class="form-input" id="theme-name" type="text" placeholder="如：这个家最常出现的一句话">
+      </div>
+      <div class="form-row">
+        <label class="form-label">适合挂接的卖点</label>
+        <textarea class="form-textarea" id="theme-sellpoints" placeholder="每行一个，如：&#10;习惯养成&#10;家庭日程"></textarea>
+        <div class="form-hint">每行一个卖点</div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">主要人群</label>
+        <input class="form-input" id="theme-audience" type="text" placeholder="如：泛家庭用户">
+      </div>
+      <div class="form-row">
+        <label class="form-label">适合讲的冲突</label>
+        <input class="form-input" id="theme-conflict" type="text" placeholder="如：反复说的话越来越重">
+      </div>
+      <div class="form-row">
+        <label class="form-label">更适合的内容形式</label>
+        <textarea class="form-textarea" id="theme-formats" placeholder="每行一个，如：&#10;视频主系列&#10;海报"></textarea>
+        <div class="form-hint">每行一个形式</div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">代表标题 / 句子</label>
+        <textarea class="form-textarea" id="theme-titles" placeholder="每行一个"></textarea>
+        <div class="form-hint">每行一条</div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">排序</label>
+        <input class="form-input" id="theme-sort" type="number" value="0" style="width:80px">
+      </div>
+      <div class="error-msg" id="theme-modal-error"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('theme-modal')">取消</button>
+      <button class="btn-primary" onclick="saveTheme()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Format Modal -->
+<div class="modal-overlay" id="format-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="format-modal-title">新增内容形式</h3>
+      <button class="modal-close" onclick="closeModal('format-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="format-id">
+      <div class="form-row">
+        <label class="form-label">内容形式名称</label>
+        <input class="form-input" id="format-name" type="text" placeholder="如：视频">
+      </div>
+      <div class="form-row">
+        <label class="form-label">最适合承接什么</label>
+        <input class="form-input" id="format-best-for" type="text">
+      </div>
+      <div class="form-row">
+        <label class="form-label">最适合挂接的卖点</label>
+        <textarea class="form-textarea" id="format-sellpoints" placeholder="每行一个"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">最适合挂接的母题</label>
+        <textarea class="form-textarea" id="format-themes" placeholder="每行一个"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">主要作用</label>
+        <input class="form-input" id="format-purpose" type="text">
+      </div>
+      <div class="form-row">
+        <label class="form-label">标题风格</label>
+        <input class="form-input" id="format-title-style" type="text">
+      </div>
+      <div class="form-row">
+        <label class="form-label">排序</label>
+        <input class="form-input" id="format-sort" type="number" value="0" style="width:80px">
+      </div>
+      <div class="error-msg" id="format-modal-error"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('format-modal')">取消</button>
+      <button class="btn-primary" onclick="saveFormat()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pool Modal -->
+<div class="modal-overlay" id="pool-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="pool-modal-title">编辑内容池</h3>
+      <button class="modal-close" onclick="closeModal('pool-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="pool-record-id">
+      <input type="hidden" id="pool-sellpoint-id">
+      <div class="form-row">
+        <label class="form-label">视频方向</label>
+        <textarea class="form-textarea" id="pool-video" placeholder="每行一条选题"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">图文方向</label>
+        <textarea class="form-textarea" id="pool-image" placeholder="每行一条选题"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">文章方向</label>
+        <textarea class="form-textarea" id="pool-article" placeholder="每行一条选题"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">产品页方向</label>
+        <textarea class="form-textarea" id="pool-product" placeholder="每行一条选题"></textarea>
+      </div>
+      <div class="error-msg" id="pool-modal-error"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('pool-modal')">取消</button>
+      <button class="btn-primary" onclick="savePool()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-head">
+      <h3>确认删除</h3>
+      <button class="modal-close" onclick="closeModal('confirm-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:14px;color:#444">删除后无法恢复，确认继续？</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('confirm-modal')">取消</button>
+      <button class="btn-primary" id="confirm-delete-btn" style="background:#c0392b;border-color:#c0392b">确认删除</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
