@@ -290,6 +290,34 @@
     line-height: 1.7;
   }
 
+  /* ── POOL TAB SWITCHER ── */
+  .pool-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--beige);
+  }
+  .pool-tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 24px 10px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    font-family: inherit;
+  }
+  .pool-tab-btn:hover { color: #2a2a2a; }
+  .pool-tab-btn.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+  .pool-tab-content { display: none; }
+  .pool-tab-content.active { display: block; }
+
   /* ── THEME CARDS (section 3) ── */
   .theme-grid {
     display: flex;
@@ -689,7 +717,8 @@
           <th style="min-width:160px">核心用户问题</th>
           <th style="min-width:150px">场景问题包</th>
           <th style="min-width:120px">情绪标签</th>
-          <th style="min-width:180px">可挂接的母题内容包</th>
+          <th style="min-width:180px">可挂接情感主题包</th>
+          <th style="min-width:180px">可挂接趣味主题包</th>
           <th style="min-width:160px">视频方向</th>
           <th style="min-width:160px">图文方向</th>
           <th style="min-width:160px">文章方向</th>
@@ -765,9 +794,10 @@
           <th style="min-width:80px">内容形式</th>
           <th style="min-width:160px">最适合承接什么</th>
           <th style="min-width:180px">最适合挂接的卖点</th>
-          <th style="min-width:180px">最适合挂接的母题</th>
+          <th style="min-width:180px">适合挂接的情感母题</th>
+          <th style="min-width:180px">适合挂接的趣味母题</th>
           <th style="min-width:140px">主要作用</th>
-          <th style="min-width:140px">标题风格</th>
+          <th style="min-width:160px">标题风格</th>
           <th style="min-width:100px">操作</th>
         </tr></thead>
         <tbody id="formats-body"></tbody>
@@ -779,11 +809,18 @@
       <span class="section-num">05</span>
       <span class="section-title">卖点内容池</span>
     </div>
-    <p class="section-desc">这里是按卖点整理好的内容素材池。如果确定要讲哪个卖点，就可以直接来这里找：适合挂哪个母题、视频、图文、文章。</p>
+    <p class="section-desc">按卖点拆分的内容素材池。<br>同一个卖点，可以有两种讲法：<br>· 情感主题：更适合打动人、建立品牌温度<br>· 趣味主题：更适合互动、拉新、轻传播和玩法内容</p>
 
+    <div class="pool-tabs">
+      <button class="pool-tab-btn active" onclick="switchPoolTab('emotion', this)">情感主题</button>
+      <button class="pool-tab-btn" onclick="switchPoolTab('fun', this)">趣味主题</button>
+    </div>
+
+    <!-- 情感主题 Tab -->
+    <div id="pool-tab-emotion" class="pool-tab-content active">
     <div class="cards-grid">
 
-      <!-- 便利贴 -->
+      <!-- 便利贴 情感 -->
       <div class="sp-card">
         <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
           <div>
@@ -802,27 +839,23 @@
         </div>
         <div class="sp-section">
           <div class="sp-section-label">视频方向</div>
-          <ul class="sp-list" id="pool-video-便利贴"><li>深夜便签和解短片</li><li>冷战后没说出口的话</li><li>爸爸/妈妈拉不下脸道歉</li></ul>
+          <ul class="sp-list"><li>深夜便签和解短片</li><li>冷战后没说出口的话</li><li>爸爸/妈妈拉不下脸道歉</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">图文方向</div>
-          <ul class="sp-list" id="pool-image-便利贴"><li>一张便签，有时候比一句「对不起」更容易开口</li><li>便签 vs 微信文字，有什么不同</li><li>深夜客厅便签场景长图</li></ul>
+          <ul class="sp-list"><li>一张便签，有时候比一句「对不起」更容易开口</li><li>便签 vs 微信文字，有什么不同</li><li>深夜客厅便签场景长图</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">文章方向</div>
-          <ul class="sp-list" id="pool-article-便利贴"><li>为什么有些道歉总是在深夜才说得出口</li><li>手写感留言为什么比微信更有温度</li><li>家庭里的「情绪出口」，为什么值得被设计</li></ul>
+          <ul class="sp-list"><li>为什么有些道歉总是在深夜才说得出口</li><li>手写感留言为什么比微信更有温度</li><li>家庭里的「情绪出口」，为什么值得被设计</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">产品页方向</div>
-          <ul class="sp-list" id="pool-product-便利贴"><li>留言功能介绍</li><li>待办功能介绍</li><li>使用场景页：夫妻、亲子、远程关心</li></ul>
-        </div>
-        <div class="sp-section">
-          <div class="sp-section-label">轻趣味方向</div>
-          <ul class="sp-list" id="pool-fun-便利贴"><li>一张便签的100种玩法</li><li>家里的话，也可以很好玩</li><li>如果家里的画框会接梗</li></ul>
+          <ul class="sp-list"><li>留言功能介绍</li><li>待办功能介绍</li><li>使用场景页：夫妻、亲子、远程关心</li></ul>
         </div>
       </div>
 
-      <!-- AI创作 -->
+      <!-- AI创作 情感 -->
       <div class="sp-card">
         <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
           <div>
@@ -841,32 +874,28 @@
         </div>
         <div class="sp-section">
           <div class="sp-section-label">视频方向</div>
-          <ul class="sp-list" id="pool-video-AI创作"><li>「别闹了」</li><li>「画得不像」</li><li>孩子的想法被画出来</li></ul>
+          <ul class="sp-list"><li>「别闹了」</li><li>「画得不像」</li><li>孩子的想法被画出来</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">图文方向</div>
-          <ul class="sp-list" id="pool-image-AI创作"><li>每一个奇思妙想，都值得被认真看见</li><li>孩子脑洞可视化长图</li><li>AI涂鸦前后对比图卡</li></ul>
+          <ul class="sp-list"><li>每一个奇思妙想，都值得被认真看见</li><li>孩子脑洞可视化长图</li><li>AI涂鸦前后对比图卡</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">文章方向</div>
-          <ul class="sp-list" id="pool-article-AI创作"><li>为什么「别闹了」会打断孩子的想象力</li><li>AI生图在家庭陪伴里的价值是什么</li><li>不会画的家长，怎么和孩子一起创造</li></ul>
+          <ul class="sp-list"><li>为什么「别闹了」会打断孩子的想象力</li><li>AI生图在家庭陪伴里的价值是什么</li><li>不会画的家长，怎么和孩子一起创造</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">产品页方向</div>
-          <ul class="sp-list" id="pool-product-AI创作"><li>AI生图页</li><li>AI涂鸦页</li><li>亲子共创页</li></ul>
-        </div>
-        <div class="sp-section">
-          <div class="sp-section-label">轻趣味方向</div>
-          <ul class="sp-list" id="pool-fun-AI创作"><li>今天全家玩什么</li><li>孩子脑袋里的世界（轻玩法版）</li><li>让画框画点离谱的</li></ul>
+          <ul class="sp-list"><li>AI生图页</li><li>AI涂鸦页</li><li>亲子共创页</li></ul>
         </div>
       </div>
 
-      <!-- 家庭日程 -->
+      <!-- 家庭日常 情感 -->
       <div class="sp-card">
         <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
           <div>
             <div class="sp-card-num">卖点 03</div>
-            <div class="sp-card-title">家庭日程 — 信息 / 到家状态 / 提醒</div>
+            <div class="sp-card-title">家庭日常 — 家庭信息 / 到家状态 / 提醒</div>
           </div>
           <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('家庭日程')">编辑</button>
         </div>
@@ -880,32 +909,28 @@
         </div>
         <div class="sp-section">
           <div class="sp-section-label">视频方向</div>
-          <ul class="sp-list" id="pool-video-家庭日程"><li>几点到家？</li><li>东西带了吗？</li><li>晚饭刚好热的时候</li></ul>
+          <ul class="sp-list"><li>几点到家？</li><li>东西带了吗？</li><li>晚饭刚好热的时候</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">图文方向</div>
-          <ul class="sp-list" id="pool-image-家庭日程"><li>为什么家庭里的很多吵架，只是从「几点到家」开始</li><li>一个共享信息屏，怎么减少家庭微信追问</li><li>出门提醒场景长图</li></ul>
+          <ul class="sp-list"><li>为什么家庭里的很多吵架，只是从「几点到家」开始</li><li>一个共享信息屏，怎么减少家庭微信追问</li><li>出门提醒场景长图</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">文章方向</div>
-          <ul class="sp-list" id="pool-article-家庭日程"><li>双职工家庭为什么更需要一个共享信息中心</li><li>为什么「抬头看一眼」比家庭群提醒更有效</li><li>家庭信息屏和智能中控有什么不同</li></ul>
+          <ul class="sp-list"><li>双职工家庭为什么更需要一个共享信息中心</li><li>为什么「抬头看一眼」比家庭群提醒更有效</li><li>家庭信息屏和智能中控有什么不同</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">产品页方向</div>
-          <ul class="sp-list" id="pool-product-家庭日程"><li>家庭日程页</li><li>到家状态页</li><li>提醒信息页</li></ul>
-        </div>
-        <div class="sp-section">
-          <div class="sp-section-label">轻趣味方向</div>
-          <ul class="sp-list" id="pool-fun-家庭日程"><li>家里的话，也可以很好玩</li><li>抬头就能知道的牵挂（轻松版）</li><li>一个画框省掉多少重复对话</li></ul>
+          <ul class="sp-list"><li>家庭日程页</li><li>到家状态页</li><li>提醒信息页</li></ul>
         </div>
       </div>
 
-      <!-- 习惯养成 -->
+      <!-- 习惯养成 情感 -->
       <div class="sp-card">
         <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
           <div>
             <div class="sp-card-num">卖点 04</div>
-            <div class="sp-card-title">习惯养成 — 打卡 / 能量积木</div>
+            <div class="sp-card-title">习惯养成 / 打卡 — 能量积木</div>
           </div>
           <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('习惯养成')">编辑</button>
         </div>
@@ -919,32 +944,28 @@
         </div>
         <div class="sp-section">
           <div class="sp-section-label">视频方向</div>
-          <ul class="sp-list" id="pool-video-习惯养成"><li>快去刷牙，别磨蹭了</li><li>睡前打卡</li><li>一家人共同完成目标</li></ul>
+          <ul class="sp-list"><li>快去刷牙，别磨蹭了</li><li>睡前打卡</li><li>一家人共同完成目标</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">图文方向</div>
-          <ul class="sp-list" id="pool-image-习惯养成"><li>一个AI画框，怎么把「催孩子」变成「主动挑战」</li><li>能量积木是什么</li><li>为什么家庭教育不该只靠催</li></ul>
+          <ul class="sp-list"><li>一个AI画框，怎么把「催孩子」变成「主动挑战」</li><li>能量积木是什么</li><li>为什么家庭教育不该只靠催</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">文章方向</div>
-          <ul class="sp-list" id="pool-article-习惯养成"><li>为什么家庭教育最累的是「重复提醒」</li><li>打卡机制为什么比监督更有效</li><li>从催促到主动，中间差的是什么</li></ul>
+          <ul class="sp-list"><li>为什么家庭教育最累的是「重复提醒」</li><li>打卡机制为什么比监督更有效</li><li>从催促到主动，中间差的是什么</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">产品页方向</div>
-          <ul class="sp-list" id="pool-product-习惯养成"><li>能量积木页</li><li>习惯养成页</li><li>家庭挑战页</li></ul>
-        </div>
-        <div class="sp-section">
-          <div class="sp-section-label">轻趣味方向</div>
-          <ul class="sp-list" id="pool-fun-习惯养成"><li>把无聊日常玩出花</li><li>家庭任务小游戏</li><li>今天全家玩什么</li></ul>
+          <ul class="sp-list"><li>能量积木页</li><li>习惯养成页</li><li>家庭挑战页</li></ul>
         </div>
       </div>
 
-      <!-- 家庭美术馆 -->
+      <!-- 家庭美术馆 情感 -->
       <div class="sp-card">
         <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
           <div>
             <div class="sp-card-num">卖点 05</div>
-            <div class="sp-card-title">家庭美术馆 — 照片 / 艺术化 / 名画</div>
+            <div class="sp-card-title">家庭美术馆 — 照片 / 艺术化展示 / 名画</div>
           </div>
           <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('家庭美术馆')">编辑</button>
         </div>
@@ -958,27 +979,207 @@
         </div>
         <div class="sp-section">
           <div class="sp-section-label">视频方向</div>
-          <ul class="sp-list" id="pool-video-家庭美术馆"><li>普通照片被挂成「家里的名画」</li><li>家务结束后，妈妈抬头看到旧照片被治愈</li><li>世界名画与家庭照片切换</li></ul>
+          <ul class="sp-list"><li>普通照片被挂成「家里的名画」</li><li>家务结束后，妈妈抬头看到旧照片被治愈</li><li>世界名画与家庭照片切换</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">图文方向</div>
-          <ul class="sp-list" id="pool-image-家庭美术馆"><li>最好的收藏，是我们在的日子</li><li>为什么普通照片也值得挂起来</li><li>AI画框和电子相框有什么区别</li></ul>
+          <ul class="sp-list"><li>最好的收藏，是我们在的日子</li><li>为什么普通照片也值得挂起来</li><li>AI画框和电子相框有什么区别</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">文章方向</div>
-          <ul class="sp-list" id="pool-article-家庭美术馆"><li>照片为什么总躺在手机里吃灰</li><li>家里为什么值得有一块「情感装饰」</li><li>家庭美术馆如何影响孩子的审美</li></ul>
+          <ul class="sp-list"><li>照片为什么总躺在手机里吃灰</li><li>家里为什么值得有一块「情感装饰」</li><li>家庭美术馆如何影响孩子的审美</li></ul>
         </div>
         <div class="sp-section">
           <div class="sp-section-label">产品页方向</div>
-          <ul class="sp-list" id="pool-product-家庭美术馆"><li>家庭美术馆页</li><li>照片展示页</li><li>艺术氛围页</li></ul>
-        </div>
-        <div class="sp-section">
-          <div class="sp-section-label">轻趣味方向</div>
-          <ul class="sp-list" id="pool-fun-家庭美术馆"><li>今天客厅挂什么</li><li>把无聊日常玩出花</li><li>画框今天又整活了</li></ul>
+          <ul class="sp-list"><li>家庭美术馆页</li><li>照片展示页</li><li>艺术氛围页</li></ul>
         </div>
       </div>
 
     </div>
+    </div>
+
+    <!-- 趣味主题 Tab -->
+    <div id="pool-tab-fun" class="pool-tab-content">
+    <div class="cards-grid">
+
+      <!-- 便利贴 趣味 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 01</div>
+            <div class="sp-card-title">便利贴 — 留言 / 待办</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('便利贴')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">便签梗</span><span class="kw">家庭互动</span><span class="kw">吐槽</span><span class="kw">奖励</span><span class="kw">小规则</span><span class="kw">轻提醒</span><span class="kw">接梗</span><span class="kw">互怼</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《一张便签的100种玩法》&nbsp;·&nbsp;《家里的话，也可以很好玩》&nbsp;·&nbsp;《如果家里的画框会接梗》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list"><li>家庭便签整活短视频</li><li>情侣/夫妻轻互动便签</li><li>便签变家庭小游戏</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list"><li>今日最有梗便签</li><li>一张便签还能怎么用</li><li>家庭留言梗图合集</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list"><li>一张便签的100种玩法</li><li>为什么轻一点的提醒，更容易被接受</li><li>家庭里的「好玩表达」，也有价值</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list"><li>留言玩法页</li><li>便签模板页</li><li>家庭互动玩法页</li></ul>
+        </div>
+      </div>
+
+      <!-- AI创作 趣味 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 02</div>
+            <div class="sp-card-title">AI创作 — AI生图 / AI涂鸦</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('AI创作')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">脑洞挑战</span><span class="kw">离谱题目</span><span class="kw">全家出题</span><span class="kw">一本正经胡说八道</span><span class="kw">创意整活</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《今天全家玩什么》&nbsp;·&nbsp;《画框今天又整活了》&nbsp;·&nbsp;《让画框画点离谱的》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list"><li>今天让画框画点什么</li><li>全家轮流出题挑战</li><li>离谱脑洞生成合集</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list"><li>今天最离谱的一题</li><li>让画框画点离谱的</li><li>全家出题图文玩法卡</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list"><li>AI创作可以怎么在家里玩起来</li><li>为什么「好玩」是家庭共创的第一步</li><li>适合家庭玩的AI创作小游戏</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list"><li>创作玩法页</li><li>家庭共创玩法页</li><li>脑洞挑战页</li></ul>
+        </div>
+      </div>
+
+      <!-- 家庭日常 趣味 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 03</div>
+            <div class="sp-card-title">家庭日常 — 家庭信息 / 到家状态 / 提醒</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('家庭日程')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">少发微信</span><span class="kw">轻提醒</span><span class="kw">聪明一点</span><span class="kw">家庭小默契</span><span class="kw">效率感</span><span class="kw">顺手感</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《家里的话，也可以很好玩》&nbsp;·&nbsp;《一个画框省掉多少重复对话》&nbsp;·&nbsp;《抬头就能知道的牵挂（轻松版）》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list"><li>少发10条微信的一天</li><li>抬头看一眼就够了</li><li>家庭共享信息的轻妙招短视频</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list"><li>一个画框省掉多少重复对话</li><li>少发微信挑战</li><li>家庭信息轻提醒玩法图</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list"><li>为什么有些家庭沟通，其实可以再轻一点</li><li>家庭共享信息还能怎么玩</li><li>把重复对话变少的几个办法</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list"><li>家庭信息玩法页</li><li>提醒方式展示页</li><li>轻交互场景页</li></ul>
+        </div>
+      </div>
+
+      <!-- 习惯养成 趣味 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 04</div>
+            <div class="sp-card-title">习惯养成 / 打卡 — 能量积木</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('习惯养成')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">挑战</span><span class="kw">小游戏</span><span class="kw">隐藏任务</span><span class="kw">排行榜</span><span class="kw">积分</span><span class="kw">解锁奖励</span><span class="kw">全家参与</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《把无聊日常玩出花》&nbsp;·&nbsp;《家庭任务小游戏》&nbsp;·&nbsp;《今天全家玩什么》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list"><li>刷牙挑战已开启</li><li>今日隐藏任务</li><li>全家打卡挑战赛</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list"><li>家庭任务小游戏合集</li><li>今天的隐藏任务是什么</li><li>积木掉落瞬间合集</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list"><li>为什么把任务做成游戏更有效</li><li>家庭打卡还能怎么玩</li><li>从监督到参与：轻游戏机制的价值</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list"><li>任务玩法页</li><li>挑战机制页</li><li>家庭共同目标页</li></ul>
+        </div>
+      </div>
+
+      <!-- 家庭美术馆 趣味 -->
+      <div class="sp-card">
+        <div class="sp-card-header" style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <div class="sp-card-num">卖点 05</div>
+            <div class="sp-card-title">家庭美术馆 — 照片 / 艺术化展示 / 名画</div>
+          </div>
+          <button class="btn btn-sm" style="margin-top:4px;flex-shrink:0" onclick="openPoolModalByName('家庭美术馆')">编辑</button>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">核心关键词</div>
+          <div class="kw-list"><span class="kw">风格切换</span><span class="kw">客厅投票</span><span class="kw">今天挂什么</span><span class="kw">氛围玩法</span><span class="kw">空间新鲜感</span><span class="kw">艺术风格变化</span></div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">适合挂的母题</div>
+          <div class="theme-ref">《今天客厅挂什么》&nbsp;·&nbsp;《画框今天又整活了》&nbsp;·&nbsp;《把无聊日常玩出花》</div>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">视频方向</div>
+          <ul class="sp-list"><li>今天客厅挂什么</li><li>我家照片变成不同艺术风格</li><li>客厅气氛切换短视频</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">图文方向</div>
+          <ul class="sp-list"><li>今天客厅该挂哪张</li><li>家庭照片风格切换图</li><li>一块画框让客厅每天有点新鲜感</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">文章方向</div>
+          <ul class="sp-list"><li>家庭美术馆还能怎么玩</li><li>照片展示如何变得更有趣</li><li>让空间每天有点变化的内容玩法</li></ul>
+        </div>
+        <div class="sp-section">
+          <div class="sp-section-label">产品页方向</div>
+          <ul class="sp-list"><li>风格展示页</li><li>家庭美术馆玩法页</li><li>空间氛围页</li></ul>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
   </div>
   
 </div><!-- /page-wrap -->
@@ -1048,39 +1249,44 @@ function showErr(id, msg) {
 // =====================
 const SCENE_DATA = {
   '便利贴': {
-    core: '有些话说不出口；冷战没人先开口；关心太肉麻',
-    scenes: '深夜和解、夫妻冷战、远程关心、待办提醒、道歉与关怀',
+    core: '有些话说不出口；冷战没人先开口；关心太肉麻；也想用便签玩点花样',
+    scenes: '深夜和解、夫妻冷战、远程关心、待办提醒、道歉与关怀、便签互怼、全家投票留言',
     behind: '有些话当面说不出口，需要一个更轻的出口',
-    emotion: '愧疚 / 温柔 / 和解',
-    themes: ['《那些没说出口的话》', '《这个家最常出现的一句话》', '《把爱挂在家里》']
+    emotion: '愧疚 / 温柔 / 和解 / 轻松 / 有梗 / 轻互动',
+    themes: ['《那些没说出口的话》', '《这个家最常出现的一句话》', '《把爱挂在家里》'],
+    fun_themes: ['《一张便签的100种玩法》', '《家里的话，也可以很好玩》', '《如果家里的画框会接梗》']
   },
   'AI创作': {
-    core: '家长接不住孩子脑洞；不会画只能敷衍；想象力缺乏出口',
-    scenes: '亲子共创、孩子脑洞、天马行空、涂鸦生成、陪伴时刻',
+    core: '家长接不住孩子脑洞；不会画只能敷衍；想象力缺乏出口；也想和孩子一起整点好玩的',
+    scenes: '亲子共创、孩子脑洞、天马行空、涂鸦生成、陪伴时刻、AI脑洞挑战、画点离谱的',
     behind: '家长接不住孩子脑洞，想象力被打断',
-    emotion: '遗憾 / 愧疚 / 惊喜',
-    themes: ['《孩子脑袋里的世界》', '《这个家最常出现的一句话》', '《有些胡说八道，其实是想象力》']
+    emotion: '遗憾 / 愧疚 / 惊喜 / 有趣 / 想参与 / 小惊喜',
+    themes: ['《孩子脑袋里的世界》', '《这个家最常出现的一句话》', '《有些胡说八道，其实是想象力》'],
+    fun_themes: ['《今天全家玩什么》', '《画框今天又整活了》', '《如果家里的画框会接梗》']
   },
   '家庭日程': {
     core: '总忘东西；总问几点到家；信息都散在微信里；追问久了会吵架',
-    scenes: '上学提醒、出门漏带东西、到家时间、晚饭等待、家庭共享信息',
+    scenes: '上学提醒、出门漏带东西、到家时间、晚饭等待、家庭共享信息、今天客厅挂什么、全家日程公示',
     behind: '信息不确定带来焦虑，追问变成压力',
-    emotion: '焦虑 / 烦躁 / 牵挂',
-    themes: ['《抬头就能知道的牵挂》', '《这个家最常出现的一句话》', '《把等待变成默契》']
+    emotion: '焦虑 / 烦躁 / 牵挂 / 轻松 / 游戏感',
+    themes: ['《抬头就能知道的牵挂》', '《这个家最常出现的一句话》', '《把等待变成默契》'],
+    fun_themes: ['《家里的话，也可以很好玩》', '《一个画框省掉多少重复对话》', '《抬头就能知道的牵挂（轻松版）》']
   },
   '习惯养成': {
     core: '刷牙、睡觉、整理书包天天靠催；教育像监工；孩子被催大人也累',
-    scenes: '刷牙睡觉、作业、整理书包、运动打卡、家庭共同目标',
+    scenes: '刷牙睡觉、作业、整理书包、运动打卡、家庭共同目标、打卡挑战、家庭任务小游戏',
     behind: '重复提醒带来的疲惫；教育像监工；孩子被催、大人也累',
-    emotion: '烦躁 / 无奈 / 拉扯 / 想轻松一点',
-    themes: ['《把催促变成主动》', '《这个家最常出现的一句话》', '《最好的教育，是我们一起》']
+    emotion: '烦躁 / 无奈 / 拉扯 / 想轻松一点 / 游戏感 / 想参与',
+    themes: ['《把催促变成主动》', '《这个家最常出现的一句话》', '《最好的教育，是我们一起》'],
+    fun_themes: ['《把无聊日常玩出花》', '《家庭任务小游戏》', '《今天全家玩什么》']
   },
   '家庭美术馆': {
     core: '照片都躺在手机里；普通日子没有被珍藏；家里装饰没有情感',
-    scenes: '家庭照片展示、普通日子收藏、节日回忆、名画切换、家庭氛围美化',
+    scenes: '家庭照片展示、普通日子收藏、节日回忆、名画切换、家庭氛围美化、今天客厅挂什么、画框整活',
     behind: '普通日子没被珍藏，家里缺少情感装饰',
-    emotion: '遗憾 / 温情 / 治愈',
-    themes: ['《把爱挂在家里》', '《最好的收藏是我们在的日子》', '《这个家最常出现的一句话》（次级）']
+    emotion: '遗憾 / 温情 / 治愈 / 轻松 / 小惊喜 / 有趣',
+    themes: ['《把爱挂在家里》', '《最好的收藏是我们在的日子》', '《这个家最常出现的一句话》（次级）'],
+    fun_themes: ['《今天客厅挂什么》', '《画框今天又整活了》', '《把无聊日常玩出花》']
   }
 }
 
@@ -1118,6 +1324,7 @@ async function loadMatrix() {
         <td>${sc.scenes || ''}</td>
         <td>${sc.emotion ? sc.emotion.split('/').map(e => `<span class="tag tag-gray">${e.trim()}</span>`).join('') : ''}</td>
         <td>${(sc.themes || []).map(t => `<span class="t-theme">${t}</span>`).join(' ')}</td>
+        <td>${(sc.fun_themes || []).map(t => `<span class="t-theme" style="color:#888;border-color:#bbb">${t}</span>`).join(' ')}</td>
         <td>${ideaList(pool.video_ideas)}</td>
         <td>${ideaList(pool.image_ideas)}</td>
         <td>${ideaList(pool.article_ideas)}</td>
@@ -1281,18 +1488,28 @@ function renderFormats() {
   }
   table.style.display = 'table'
   status.style.display = 'none'
-  tbody.innerHTML = formatsData.map(f => `<tr>
+  const FUN_FORMATS = {
+    '视频': ['《画框今天又整活了》', '《今天全家玩什么》', '《家庭任务小游戏》'],
+    '图文': ['《一张便签的100种玩法》', '《今天客厅挂什么》', '《把无聊日常玩出花》'],
+    '文章': ['《家里的话，也可以很好玩》', '《一个画框省掉多少重复对话》'],
+    '产品页': []
+  }
+  tbody.innerHTML = formatsData.map(f => {
+    const funList = (FUN_FORMATS[f.name] || []).map(t => `<span class="tag tag-gray">${t}</span>`).join('')
+    return `<tr>
     <td class="td-name">${f.name || ''}</td>
     <td>${f.best_for || ''}</td>
     <td>${(f.suitable_sellpoints || []).map(s => `<span class="tag">${s}</span>`).join('')}</td>
     <td>${(f.suitable_themes || []).map(t => `<span class="tag tag-gray">${t}</span>`).join('')}</td>
+    <td>${funList || '<span style="color:#bbb;font-size:11px">—</span>'}</td>
     <td>${f.purpose || ''}</td>
     <td>${f.title_style || ''}</td>
     <td class="action-cell">
       <button class="btn btn-sm" onclick="openFormatModal(${f.id})">编辑</button>
       <button class="btn btn-sm btn-danger" onclick="confirmDelete('content_formats', ${f.id}, loadFormats)">删除</button>
     </td>
-  </tr>`).join('')
+  </tr>`
+  }).join('')
 }
 
 function openFormatModal(id) {
@@ -1580,6 +1797,13 @@ function showTab(id, btn) {
   if (id === 'themes' && !themesLoaded) loadThemes()
   if (id === 'themes' && !funThemesLoaded) loadFunThemes()
   if (id === 'formats' && !formatsLoaded) loadFormats()
+}
+
+function switchPoolTab(tabId, btn) {
+  document.querySelectorAll('.pool-tab-content').forEach(c => c.classList.remove('active'))
+  document.querySelectorAll('.pool-tab-btn').forEach(b => b.classList.remove('active'))
+  document.getElementById('pool-tab-' + tabId).classList.add('active')
+  if (btn) btn.classList.add('active')
 }
 
 // 卖点内容池 — 按名称打开编辑 modal，从 Supabase 加载最新数据
